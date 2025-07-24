@@ -2094,8 +2094,7 @@ components = {
 			Type = 'Toggle',
 			Enabled = false,
 			Index = getTableSize(api.Options)
-		}
-		
+		}		
 		local hovered = false
 		local toggle = Instance.new('TextButton')
 		toggle.Name = optionsettings.Name..'Toggle'
