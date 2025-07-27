@@ -9174,7 +9174,7 @@ run(function()
 		end;
 	end;
 
-	HotbarVisuals = vape.Categories.Render:CreateModule({
+	HotbarVisuals = vape.Categories.CloudWare:CreateModule({
 		["Name"] = 'HotbarVisuals',
 		["HoverText"] = 'Add customization to your hotbar.',
 		["Function"] = function(callback: boolean): void
@@ -9316,7 +9316,7 @@ run(function()
 		task.wait(FakeLagSpeed5.Value/10)
 		entitylib.character.Humanoid.WalkSpeed = FakeLagSpeed3.Value
 	end
-	FakeLag = vape.Categories.Utility:CreateModule({
+	FakeLag = vape.Categories.CloudWare:CreateModule({
 		Name = "FakeLag",
         HoverText = "Makes people think you're laggy",
 		Function = function(callback)
