@@ -1,5 +1,3 @@
---This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.
---This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.
 local run = function(func)
 	func()
 end
@@ -2115,17 +2113,19 @@ run(function()
 						lplr.PlayerGui.MobileUI['2'].Visible = Limit.Enabled
 					end)
 				end
-                if killaurarangecircle["Enabled"] and killaurarangecirclepart == nil and Killaura["Enabled"] then
-                    killaurarangecirclepart = Instance.new("MeshPart");
-                    killaurarangecirclepart.MeshId = "rbxassetid://3726303797";
-                    killaurarangecirclepart.Color = Color3.fromHSV(killauracolor["Hue"], killauracolor["Sat"], killauracolor.Value)
-                    killaurarangecirclepart.CanCollide = false;
-                    killaurarangecirclepart.Anchored = true;
-                    killaurarangecirclepart.Material = Enum.Material.Neon;
-                    killaurarangecirclepart.Size = Vector3.new(AttackRange.Value * 0.7, 0.01, AttackRange.Value * 0.7);
-                    killaurarangecirclepart.Parent = gameCamera;
-                    bedwars.QueryUtil:setQueryIgnored(killaurarangecirclepart, true);
-                end;
+                task.spawn(function()
+                    if killaurarangecircle["Enabled"] and killaurarangecirclepart == nil and Killaura["Enabled"] then
+                        killaurarangecirclepart = Instance.new("MeshPart");
+                        killaurarangecirclepart.MeshId = "rbxassetid://3726303797";
+                        killaurarangecirclepart.Color = Color3.fromHSV(killauracolor["Hue"], killauracolor["Sat"], killauracolor.Value)
+                        killaurarangecirclepart.CanCollide = false;
+                        killaurarangecirclepart.Anchored = true;
+                        killaurarangecirclepart.Material = Enum.Material.Neon;
+                        killaurarangecirclepart.Size = Vector3.new(AttackRange.Value * 0.7, 0.01, AttackRange.Value * 0.7);
+                        killaurarangecirclepart.Parent = gameCamera;
+                        bedwars.QueryUtil:setQueryIgnored(killaurarangecirclepart, true);
+                    end;
+                end)
 				if Animation.Enabled and not (identifyexecutor and table.find({'Argon', 'Delta'}, ({identifyexecutor()})[1])) then
 					local fake = {
 						Controllers = {
@@ -2184,11 +2184,13 @@ run(function()
 
 				local swingCooldown = 0
 				repeat
-                    if killaurarangecircle["Enabled"] and killaurarangecirclepart then
-                        if entitylib.isAlive and entitylib.character.HumanoidRootPart then
-                            killaurarangecirclepart.Position = entitylib.character.HumanoidRootPart.Position - Vector3.new(0, entitylib.character.Humanoid.HipHeight, 0)
+                    task.spawn(function()
+                        if killaurarangecircle["Enabled"] and killaurarangecirclepart then
+                            if entitylib.isAlive and entitylib.character.HumanoidRootPart then
+                                killaurarangecirclepart.Position = entitylib.character.HumanoidRootPart.Position - Vector3.new(0, entitylib.character.Humanoid.HipHeight, 0)
+                            end
                         end
-                    end
+                    end)
 					local attacked, sword, meta = {}, getAttackData()
 					Attacking = false
 					store.KillauraTarget = nil
@@ -2270,13 +2272,15 @@ run(function()
 						end
 					end
 
-					for i, v in Boxes do
-						v.Adornee = attacked[i] and attacked[i].Entity.RootPart or nil
-						if v.Adornee then
-							v.Color3 = Color3.fromHSV(attacked[i].Check.Hue, attacked[i].Check.Sat, attacked[i].Check.Value)
-							v.Transparency = 1 - attacked[i].Check.Opacity
-						end
-					end
+                    task.spawn(function()
+                        for i, v in Boxes do
+                            v.Adornee = attacked[i] and attacked[i].Entity.RootPart or nil
+                            if v.Adornee then
+                                v.Color3 = Color3.fromHSV(attacked[i].Check.Hue, attacked[i].Check.Sat, attacked[i].Check.Value)
+                                v.Transparency = 1 - attacked[i].Check.Opacity
+                            end
+                        end
+                    end)
 
 					for i, v in Particles do
 						v.Position = attacked[i] and attacked[i].Entity.RootPart.Position or Vector3.new(9e9, 9e9, 9e9)
@@ -2292,14 +2296,18 @@ run(function()
 					task.wait(1 / UpdateRate.Value)
 				until not Killaura.Enabled
 			else
-                if killaurarangecirclepart then 
-                    killaurarangecirclepart:Destroy()
-                    killaurarangecirclepart = nil
-                end
+                task.spawn(function()
+                    if killaurarangecirclepart then 
+                        killaurarangecirclepart:Destroy()
+                        killaurarangecirclepart = nil
+                    end
+                end)
 				store.KillauraTarget = nil
-				for _, v in Boxes do
-					v.Adornee = nil
-				end
+                task.spawn(function()
+                    for _, v in Boxes do
+                        v.Adornee = nil
+                    end
+                end)
 				for _, v in Particles do
 					v.Parent = nil
 				end
@@ -2379,26 +2387,30 @@ run(function()
 		Name = 'Target Mode',
 		List = methods
 	})
-killaurarangecircle = Killaura:CreateToggle({
+    killaurarangecircle = Killaura:CreateToggle({
         Name = "Range Visualizer",
         Function = function(callback: boolean): void
-            if callback then 
-                killaurarangecirclepart = Instance.new("MeshPart")
-                killaurarangecirclepart.MeshId = "rbxassetid://3726303797"
-                killaurarangecirclepart.Color = Color3.fromHSV(killauracolor["Hue"], killauracolor["Sat"], killauracolor.Value)
-                killaurarangecirclepart.CanCollide = false
-                killaurarangecirclepart.Anchored = true
-                killaurarangecirclepart.Material = Enum.Material.Neon
-                killaurarangecirclepart.Size = Vector3.new(AttackRange.Value * 0.7, 0.01, AttackRange.Value * 0.7)
-                if Killaura.Enabled then 
-                    killaurarangecirclepart.Parent = gameCamera
-                end
-                bedwars.QueryUtil:setQueryIgnored(killaurarangecirclepart, true)
+            if callback then
+                task.spawn(function()
+                    killaurarangecirclepart = Instance.new("MeshPart")
+                    killaurarangecirclepart.MeshId = "rbxassetid://3726303797"
+                    killaurarangecirclepart.Color = Color3.fromHSV(killauracolor["Hue"], killauracolor["Sat"], killauracolor.Value)
+                    killaurarangecirclepart.CanCollide = false
+                    killaurarangecirclepart.Anchored = true
+                    killaurarangecirclepart.Material = Enum.Material.Neon
+                    killaurarangecirclepart.Size = Vector3.new(AttackRange.Value * 0.7, 0.01, AttackRange.Value * 0.7)
+                    if Killaura.Enabled then 
+                        killaurarangecirclepart.Parent = gameCamera
+                    end
+                    bedwars.QueryUtil:setQueryIgnored(killaurarangecirclepart, true)
+                end)
             else
-                if killaurarangecirclepart then 
-                    killaurarangecirclepart:Destroy()
-                    killaurarangecirclepart = nil
-                end
+                task.spawn(function()
+                    if killaurarangecirclepart then 
+                        killaurarangecirclepart:Destroy()
+                        killaurarangecirclepart = nil
+                    end
+                end)
             end
         end
     })
@@ -9309,11 +9321,11 @@ run(function()
 	local FakeLagSpeed3 = {Value = 20}
 	local FakeLagSpeed4 = {Value = 2.7}
 	local FakeLagSpeed5 = {Value = 1.5}
-	local function ChangeSpeeds()
+	local function ChangeSpeeds() -- this won't work with speed but ok
 		entitylib.character.Humanoid.WalkSpeed = FakeLagSpeed1.Value
-		task.wait(FakeLagSpeed4.Value/10)
+		task.wait(FakeLagSpeed4.Value / 10)
 		entitylib.character.Humanoid.WalkSpeed = FakeLagSpeed2.Value
-		task.wait(FakeLagSpeed5.Value/10)
+		task.wait(FakeLagSpeed5.Value / 10)
 		entitylib.character.Humanoid.WalkSpeed = FakeLagSpeed3.Value
 	end
 	FakeLag = vape.Categories.CloudWare:CreateModule({
@@ -9325,16 +9337,16 @@ run(function()
 					repeat task.wait()
 						if FakeLagUsage.Value == "Blatant" then
 							entitylib.character.HumanoidRootPart.Anchored = true
-							task.wait(FakeLagDelay1.Value/10)
+							task.wait(FakeLagDelay1.Value / 10)
 							entitylib.character.HumanoidRootPart.Anchored = false
 							ChangeSpeeds()
 							task.wait(FakeLagDelay2.Value/10)
 						elseif FakeLagUsage.Value == "Legit" then
 							entitylib.character.HumanoidRootPart.Anchored = true
-							task.wait(FakeLagDelay1.Value/10 + FakeLagDelayLegit.Value)
+							task.wait(FakeLagDelay1.Value / 10 + FakeLagDelayLegit.Value)
 							entitylib.character.HumanoidRootPart.Anchored = false
 							ChangeSpeeds()
-							task.wait(FakeLagDelay2.Value/10 + FakeLagDelayLegit.Value)
+							task.wait(FakeLagDelay2.Value / 10 + FakeLagDelayLegit.Value)
 						end
 					until not FakeLag.Enabled
 				end)
@@ -9428,4 +9440,3 @@ run(function()
 		Default = 1.5
 	})
 end)
-																																															
