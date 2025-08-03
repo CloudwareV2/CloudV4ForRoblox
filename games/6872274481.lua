@@ -9438,3 +9438,4 @@ run(function()
 		HoverText = "Speed Delay 2 Value",
 		Function = function() end,
 		Default = 1.5run(function()
+	})
