@@ -9309,3 +9309,142 @@ run(function()
 	HotbarHighlightColor.Object.Visible = false;
 end);
 
+run(function()
+	local FakeLag = {Enabled = false}
+	local FakeLagUsage = {Value = "Blatant"}
+	local FakeLagSpeed = {Enabled = false}
+	local FakeLagDelay1 = {Value = 2}
+	local FakeLagDelay2 = {Value = 7}
+	local FakeLagDelayLegit = {Value = 3}
+	local FakeLagSpeed1 = {Value = 22}
+	local FakeLagSpeed2 = {Value = 18}
+	local FakeLagSpeed3 = {Value = 20}
+	local FakeLagSpeed4 = {Value = 2.7}
+	local FakeLagSpeed5 = {Value = 1.5}
+	local function ChangeSpeeds() -- this won't work with speed but ok
+		entitylib.character.Humanoid.WalkSpeed = FakeLagSpeed1.Value
+		task.wait(FakeLagSpeed4.Value / 10)
+		entitylib.character.Humanoid.WalkSpeed = FakeLagSpeed2.Value
+		task.wait(FakeLagSpeed5.Value / 10)
+		entitylib.character.Humanoid.WalkSpeed = FakeLagSpeed3.Value
+	end
+	FakeLag = vape.Categories.CloudWare:CreateModule({
+		Name = "FakeLag",
+        HoverText = "Makes people think you're laggy",
+		Function = function(callback)
+			if callback then
+				task.spawn(function()
+					repeat task.wait()
+						if FakeLagUsage.Value == "Blatant" then
+							entitylib.character.HumanoidRootPart.Anchored = true
+							task.wait(FakeLagDelay1.Value / 10)
+							entitylib.character.HumanoidRootPart.Anchored = false
+							ChangeSpeeds()
+							task.wait(FakeLagDelay2.Value/10)
+						elseif FakeLagUsage.Value == "Legit" then
+							entitylib.character.HumanoidRootPart.Anchored = true
+							task.wait(FakeLagDelay1.Value / 10 + FakeLagDelayLegit.Value)
+							entitylib.character.HumanoidRootPart.Anchored = false
+							ChangeSpeeds()
+							task.wait(FakeLagDelay2.Value / 10 + FakeLagDelayLegit.Value)
+						end
+					until not FakeLag.Enabled
+				end)
+			else
+				if entitylib.character.HumanoidRootPart.Anchored then
+					entitylib.character.HumanoidRootPart.Anchored = false
+				end
+			end
+		end,
+		ExtraText = function()
+			return FakeLagUsage.Value
+		end
+	})
+FakeLagUsage = FakeLag:CreateDropdown({
+    Name = "Mode",
+    List = {
+        "Blatant",
+        "Legit"
+    },
+    HoverText = "FakeLag Mode",
+    Function = function() end
+})
+
+FakeLagSpeed = FakeLag:CreateToggle({
+    Name = "Speed",
+    Default = false,
+    HoverText = "Changes speed",
+    Function = function() end
+})
+
+FakeLagDelay1 = FakeLag:CreateSlider({
+    Name = "Anchored Delay",
+    Min = 0,
+    Max = 20,
+    HoverText = "Anchored Delay Value",
+    Function = function() end,
+    Default = 2
+})
+
+FakeLagDelay2 = FakeLag:CreateSlider({
+    Name = "Unanchored Delay",
+    Min = 0,
+    Max = 20,
+    HoverText = "Not Anchored Delay Value",
+    Function = function() end,
+    Default = 7
+})
+
+FakeLagDelayLegit = FakeLag:CreateSlider({
+    Name = "Legit",
+    Min = 1,
+    Max = 10,
+    HoverText = "Legit Time",
+    Function = function() end,
+    Default = 3
+})
+
+FakeLagSpeed1 = FakeLag:CreateSlider({
+    Name = "Speed 1",
+    Min = 1,
+    Max = 22,
+    HoverText = "Speed 1 Value",
+    Function = function() end,
+    Default = 22
+})
+
+FakeLagSpeed2 = FakeLag:CreateSlider({
+    Name = "Speed 2",
+    Min = 1,
+    Max = 20,
+    HoverText = "Speed 2 Value",
+    Function = function() end,
+    Default = 18
+})
+
+FakeLagSpeed3 = FakeLag:CreateSlider({
+    Name = "Speed 3",
+    Min = 1,
+    Max = 20,
+    HoverText = "Speed 3 Value",
+    Function = function() end,
+    Default = 20
+})
+
+FakeLagSpeed4 = FakeLag:CreateSlider({
+    Name = "Speed Delay 1",
+    Min = 1,
+    Max = 3,
+    HoverText = "Speed Delay 1 Value",
+    Function = function() end,
+    Default = 2.7
+})
+
+FakeLagSpeed5 = FakeLag:CreateSlider({
+    Name = "Speed Delay 2",
+    Min = 1,
+    Max = 3,
+    HoverText = "Speed Delay 2 Value",
+    Function = function() end,
+    Default = 1.5
+})
