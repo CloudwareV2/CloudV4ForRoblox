@@ -9360,90 +9360,92 @@ run(function()
 			return FakeLagUsage.Value
 		end
 	})
-	FakeLagUsage = FakeLag:CreateDropdown({
-		Name = "Mode",
-		List = {
-			"Blatant",
-			"Legit"
-		},
-		HoverText = "FakeLag Mode",
-		Function = function() end,
-	})
-	FakeLagSpeed = FakeLag:CreateToggle({
-	Name = "Speed",
-	Default = false,
-	HoverText = "Changes speed",
-	Function = function() end,
+FakeLagUsage = FakeLag:CreateDropdown({
+    Name = "Mode",
+    List = {
+        "Blatant",
+        "Legit"
+    },
+    HoverText = "FakeLag Mode",
+    Function = function() end
+})
+
+FakeLagSpeed = FakeLag:CreateToggle({
+    Name = "Speed",
+    Default = false,
+    HoverText = "Changes speed",
+    Function = function() end
 })
 
 FakeLagDelay1 = FakeLag:CreateSlider({
-	Name = "Anchored Delay",
-	Min = 0,
-	Max = 20,
-	HoverText = "Anchored Delay Value",
-	Function = function() end,
-	Default = 2
+    Name = "Anchored Delay",
+    Min = 0,
+    Max = 20,
+    HoverText = "Anchored Delay Value",
+    Function = function() end,
+    Default = 2
 })
 
 FakeLagDelay2 = FakeLag:CreateSlider({
-	Name = "Unanchored Delay",
-	Min = 0,
-	Max = 20,
-	HoverText = "Not Anchored Delay Value",
-	Function = function() end,
-	Default = 7
+    Name = "Unanchored Delay",
+    Min = 0,
+    Max = 20,
+    HoverText = "Not Anchored Delay Value",
+    Function = function() end,
+    Default = 7
 })
 
 FakeLagDelayLegit = FakeLag:CreateSlider({
-	Name = "Legit",
-	Min = 1,
-	Max = 10,
-	HoverText = "Legit Time",
-	Function = function() end,
-	Default = 3
+    Name = "Legit",
+    Min = 1,
+    Max = 10,
+    HoverText = "Legit Time",
+    Function = function() end,
+    Default = 3
 })
 
 FakeLagSpeed1 = FakeLag:CreateSlider({
-	Name = "Speed 1",
-	Min = 1,
-	Max = 22,
-	HoverText = "Speed 1 Value",
-	Function = function() end,
-	Default = 22
+    Name = "Speed 1",
+    Min = 1,
+    Max = 22,
+    HoverText = "Speed 1 Value",
+    Function = function() end,
+    Default = 22
 })
 
 FakeLagSpeed2 = FakeLag:CreateSlider({
-	Name = "Speed 2",
-	Min = 1,
-	Max = 20,
-	HoverText = "Speed 2 Value",
-	Function = function() end,
-	Default = 18
+    Name = "Speed 2",
+    Min = 1,
+    Max = 20,
+    HoverText = "Speed 2 Value",
+    Function = function() end,
+    Default = 18
 })
 
 FakeLagSpeed3 = FakeLag:CreateSlider({
-	Name = "Speed 3",
-	Min = 1,
-	Max = 20,
-	HoverText = "Speed 3 Value",
-	Function = function() end,
-	Default = 20
+    Name = "Speed 3",
+    Min = 1,
+    Max = 20,
+    HoverText = "Speed 3 Value",
+    Function = function() end,
+    Default = 20
 })
 
 FakeLagSpeed4 = FakeLag:CreateSlider({
-	Name = "Speed Delay 1",
-	Min = 1,
-	Max = 3,
-	HoverText = "Speed Delay 1 Value",
-	Function = function() end,
-	Default = 2.7
+    Name = "Speed Delay 1",
+    Min = 1,
+    Max = 3,
+    HoverText = "Speed Delay 1 Value",
+    Function = function() end,
+    Default = 2.7
 })
 
 FakeLagSpeed5 = FakeLag:CreateSlider({
-	Name = "Speed Delay 2",
-	Min = 1,
-	Max = 3,
-	HoverText = "Speed Delay 2 Value",
-	Function = function() end,
-	Default = 1.5
+    Name = "Speed Delay 2",
+    Min = 1,
+    Max = 3,
+    HoverText = "Speed Delay 2 Value",
+    Function = function() end,
+    Default = 1.5
 })
+
