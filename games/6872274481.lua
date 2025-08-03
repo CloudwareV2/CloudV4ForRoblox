@@ -9431,14 +9431,7 @@ FakeLagSpeed3 = FakeLag:CreateSlider({
     Default = 20
 })
 
-FakeLagSpeed4 = FakeLag:CreateSlider({
-    Name = "Speed Delay 1",
-    Min = 1,
-    Max = 3,
-    HoverText = "Speed Delay 1 Value",
-    Function = function() end,
-    Default = 2.7
-})
+
 
 FakeLagSpeed5 = FakeLag:CreateSlider({
     Name = "Speed Delay 2",
