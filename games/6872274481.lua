@@ -9438,6 +9438,7 @@ run(function()
 		HoverText = "Speed Delay 2 Value",
 		Function = function() end,
 		Default = 1.5run(function()
+run(function()
     local ChatTag: table = {}
     ChatTag = vape.Categories.CloudWare:CreateModule({
         Name = "ChatTag",
@@ -9456,6 +9457,4 @@ run(function()
         end,
         Tooltip = "Adds a tag next to your name when you chat."
     })
-end)
-	})
 end)
