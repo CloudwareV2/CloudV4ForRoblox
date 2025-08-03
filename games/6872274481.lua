@@ -9448,3 +9448,4 @@ FakeLagSpeed5 = FakeLag:CreateSlider({
     Function = function() end,
     Default = 1.5
 })
+end)
