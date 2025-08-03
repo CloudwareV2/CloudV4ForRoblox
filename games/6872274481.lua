@@ -9438,23 +9438,3 @@ run(function()
 		HoverText = "Speed Delay 2 Value",
 		Function = function() end,
 		Default = 1.5run(function()
-run(function()
-    local ChatTag: table = {}
-    ChatTag = vape.Categories.CloudWare:CreateModule({
-        Name = "ChatTag",
-        Function = function(callback)
-            if callback then
-                textChatService.OnIncomingMessage = function(message: string?)
-                    local prop = Instance.new("TextChatMessageProperties");
-                    if message.TextSource and message.TextSource.UserId == lplr.UserId then
-                        prop.PrefixText = "<font color='#ff0000'>[CloudwareV2 Vxpe☁️]</font> " .. (message.PrefixText or "");
-                    end;
-                    return prop;
-                end;
-            else
-                textChatService.OnIncomingMessage = nil;
-            end;
-        end,
-        Tooltip = "Adds a tag next to your name when you chat."
-    })
-end)
