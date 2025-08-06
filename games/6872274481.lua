@@ -9449,3 +9449,5 @@ FakeLagSpeed5 = FakeLag:CreateSlider({
     Default = 1.5
 })
 end)
+
+notify('cloud', 'nuker == breaker :)', 7.5)
