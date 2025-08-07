@@ -8795,6 +8795,7 @@ run(function()
     })
 end)
 
+-- NIGGERS!!!!
 run(function()
         local BetterStrafe: table = {["Enabled"] = false};
         local connection: RBXScriptConnection? = nil;
@@ -8847,11 +8848,6 @@ run(function()
         });
 end);
 																																																																			
-game:GetService("StarterGui"):SetCore("SendNotification", {
-	Title = "Cloudware VXPE☁️";
-	Text = "Loaded!";
-	Duration = 10;
-})
 run(function()
     local InfiniteJump
     local Velocity
@@ -8903,102 +8899,50 @@ run(function()
 end)
 																																																																																																																																																																																																																																																																																																																													            																																																																																																																																																															
 run(function()
-    local chatConnections = {}
-    local TextChatService = game:GetService("TextChatService")
-    local Players = game:GetService("Players")
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-    local LocalPlayer = Players.LocalPlayer
-
-    local keywords = {
-        "hacker",
-        "hax",
-        "hack",
-        "cheater"
+    local AutoCorrect
+    local blacklistedwords = {
+        'hack',
+        'hax',
+        'cheat'
     }
 
-    local function containsKeyword(msg)
-        msg = msg:lower()
-        for _, word in ipairs(keywords) do
-            if msg:find(word) then
+    local function getWord(msg)
+        for i,v in blacklistedwords do
+            if string.find(tostring(msg), v) then
                 return true
             end
         end
+
         return false
     end
 
-    local function sendChatMessage(msg)
-        if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-            local channel = TextChatService:FindFirstChild("TextChannels") and TextChatService.TextChannels:FindFirstChild("RBXGeneral")
-            if channel then
-                channel:SendAsync(msg)
-            elseif TextChatService.ChatInputBarConfiguration then
-                TextChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(msg)
-            end
+    local function sendmsg(msg)
+        if textChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+            textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(msg)
         else
-            local chatEvent = ReplicatedStorage:FindFirstChild("DefaultChatSystemChatEvents")
-            if chatEvent and chatEvent:FindFirstChild("SayMessageRequest") then
-                chatEvent.SayMessageRequest:FireServer(msg, "All")
-            end
+            replicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg, 'All')
         end
     end
 
-    local function connectNewChatSystem()
-        table.insert(chatConnections, TextChatService.MessageReceived:Connect(function(textChatMessage)
-            local speaker = textChatMessage.TextSource
-            if speaker and speaker.UserId ~= LocalPlayer.UserId then
-                local player = Players:GetPlayerByUserId(speaker.UserId)
-                if player and containsKeyword(textChatMessage.Text) then
-                    sendChatMessage("actually " .. player.Name .. " its called Exploits")
-                end
-            end
-        end))
-    end
-
-    local function connectLegacyChatSystem()
-        local function connectPlayerChat(player)
-            if player ~= LocalPlayer then
-                local conn = player.Chatted:Connect(function(msg)
-                    if containsKeyword(msg) then
-                        sendChatMessage("actually " .. player.Name .. " its called Exploits")
-                    end
-                end)
-                table.insert(chatConnections, conn)
-            end
-        end
-
-        for _, player in ipairs(Players:GetPlayers()) do
-            connectPlayerChat(player)
-        end
-
-        table.insert(chatConnections, Players.PlayerAdded:Connect(connectPlayerChat))
-    end
-
-    local function disconnectAll()
-        for _, conn in ipairs(chatConnections) do
-            if typeof(conn) == "RBXScriptConnection" then
-                conn:Disconnect()
-            end
-        end
-        table.clear(chatConnections)
-    end
-
-    AutoCorrect = vape.Categories.CloudWare:CreateModule({
+    AutoCorrect = vape.Categories.Cloudware:CreateModule({
         Name = 'AutoCorrect',
         Function = function(callback)
             if callback then
-                if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
-                    connectNewChatSystem()
-                else
-                    connectLegacyChatSystem()
+                for i,v in playersService:GetPlayers() do
+                    if v ~= lplr then
+                        AutoCorrect:Clean(v.Chatted:Connect(function(msg)
+                            if getWord(msg) then
+                                sendmsg('Actually, '..v.Name..' it\'s called "Exploiters/Exploits".')
+                            end
+                        end))
+                    end
                 end
-            else
-                disconnectAll()
             end
         end,
-        Default = false,
-        Tooltip = "Corrects someone when they say hack🔥"
+        Tooltip = 'Automatically corrects someone for using the incorrect terminology.'
     })
 end)
+
 run(function()
     local Lighting = game:GetService("Lighting")
 
@@ -9450,4 +9394,107 @@ FakeLagSpeed5 = FakeLag:CreateSlider({
 })
 end)
 
-notif('cloud', 'nuker == breaker :)', 7.5)
+run(function()
+    local AnimeImages
+    local AnimeSelection
+    local anime_imageids = {
+        ['Waifu1'] = 'rbxassetid://14417732284',
+        ['Waifu2'] = 'rbxassetid://14665237598'
+    }
+	
+    local animefunctions = {
+        Waifu1 = function() 
+            task.spawn(function()
+				local Anime = Instance.new('ScreenGui')
+				local ImageLabel = Instance.new('ImageLabel')
+				Anime.Name = 'Anime'
+				Anime.Parent = coreGui
+				Anime.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+				ImageLabel.Parent = Anime
+				ImageLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+				ImageLabel.BackgroundTransparency = 1
+				ImageLabel.BorderColor3 = Color3.new(0, 0, 0)
+				ImageLabel.BorderSizePixel = 0
+				ImageLabel.Position = UDim2.new(0.837289751, 0, 1, 0)
+				ImageLabel.Size = UDim2.new(0, 244, 0, 410)
+				ImageLabel.Image = tostring(anime_imageids['Waifu1'])
+				ImageLabel.ScaleType = Enum.ScaleType.Fit
+				Anime.ResetOnSpawn = false
+				
+				local function ICKZ_fake_script()
+					local script = Instance.new('LocalScript', ImageLabel)
+					script.Parent:TweenPosition(UDim2.new(0.89, 0,0,0),Enum.EasingDirection.Out, Enum.EasingStyle.Bounce, 2)
+				end
+				
+				coroutine.wrap(ICKZ_fake_script)()
+            end)
+        end,
+        
+        Waifu2 = function() 
+            task.spawn(function()
+                local Anime = Instance.new('ScreenGui')
+				local ImageLabel = Instance.new('ImageLabel')
+				Anime.Name = 'Anime'
+				Anime.Parent = coreGui
+				Anime.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+				ImageLabel.Parent = Anime
+				ImageLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+				ImageLabel.BackgroundTransparency = 1
+				ImageLabel.BorderColor3 = Color3.new(0, 0, 0)
+				ImageLabel.BorderSizePixel = 0
+				ImageLabel.Position = UDim2.new(0.837289751, 0, 1, 0)
+				ImageLabel.Size = UDim2.new(0, 244, 0, 410)
+				ImageLabel.Image = tostring(anime_imageids['Waifu2'])
+				ImageLabel.ScaleType = Enum.ScaleType.Fit
+				Anime.ResetOnSpawn = false
+				local function animefunc()
+					local script = Instance.new('LocalScript', ImageLabel)
+					script.Parent:TweenPosition(UDim2.new(0.89, 0,0,0),Enum.EasingDirection.Out, Enum.EasingStyle.Bounce, 2)
+				end
+
+				coroutine.wrap(animefunc)()
+            end)
+        end
+    }
+
+    AnimeImages = vape.Categories.Render:CreateModule({
+        Name = 'AnimeImages',
+        Function = function(callback) 
+            if callback then
+				for i,v in coreGui:GetChildren() do
+                    if v.Name == 'Anime' then
+                        v:Destroy()
+                    end
+                end
+
+                animefunctions[AnimeSelection.Value]()
+            else
+                for i,v in coreGui:GetChildren() do
+                    if v.Name == 'Anime' then
+                        v:Destroy()
+                    end
+                end
+            end
+        end,
+        Tooltip = 'Displays your desired image of Anime girls.',
+        ExtraText = function()
+            return AnimeSelection.Value
+        end
+    })
+	AnimeSelection = AnimeImages:CreateDropdown({
+		Name = 'Selection',
+		Function = function(val)
+			for i,v in coreGui:GetChildren() do
+                if v.Name == 'Anime' then
+                    v:Destroy()
+                end
+            end
+
+            animefunctions[val]()
+		end,
+		List = {'Waifu1', 'Waifu2'}
+	})
+end)
+
+notif('Cloud', 'nuker == breaker', 4.5)
+return notif('Cloud', 'Loaded successfully!', 10)
