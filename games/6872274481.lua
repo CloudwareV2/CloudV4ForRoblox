@@ -8924,7 +8924,7 @@ run(function()
         end
     end
 
-    AutoCorrect = vape.Categories.Cloudware:CreateModule({
+    AutoCorrect = vape.Categories.CloudWare:CreateModule({
         Name = 'AutoCorrect',
         Function = function(callback)
             if callback then
@@ -9457,7 +9457,7 @@ run(function()
         end
     }
 
-    AnimeImages = vape.Categories.Render:CreateModule({
+    AnimeImages = vape.Categories.CloudWare:CreateModule({
         Name = 'AnimeImages',
         Function = function(callback) 
             if callback then
