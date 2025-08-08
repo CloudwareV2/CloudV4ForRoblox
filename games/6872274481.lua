@@ -9132,7 +9132,7 @@ run(function()
 
 	HotbarVisuals = vape.Categories.CloudWare:CreateModule({
 		["Name"] = 'HotbarVisuals',
-		["HoverText"] = 'Add customization to your hotbar.',
+		["Tooltip"] = 'Add customization to your hotbar.',
 		["Function"] = function(callback: boolean): void
 			if callback then 
 				task.spawn(function()
@@ -9274,7 +9274,7 @@ run(function()
 	end
 	FakeLag = vape.Categories.CloudWare:CreateModule({
 		Name = "FakeLag",
-        HoverText = "Makes people think you're laggy",
+        Tooltip = "Makes people think you're laggy",
 		Function = function(callback)
 			if callback then
 				task.spawn(function()
@@ -9310,14 +9310,14 @@ FakeLagUsage = FakeLag:CreateDropdown({
         "Blatant",
         "Legit"
     },
-    HoverText = "FakeLag Mode",
+    Tooltip = "FakeLag Mode",
     Function = function() end
 })
 
 FakeLagSpeed = FakeLag:CreateToggle({
     Name = "Speed",
     Default = false,
-    HoverText = "Changes speed",
+    Tooltip = "Changes speed",
     Function = function() end
 })
 
@@ -9325,7 +9325,7 @@ FakeLagDelay1 = FakeLag:CreateSlider({
     Name = "Anchored Delay",
     Min = 0,
     Max = 20,
-    HoverText = "Anchored Delay Value",
+    Tooltip = "Anchored Delay Value",
     Function = function() end,
     Default = 2
 })
@@ -9334,7 +9334,7 @@ FakeLagDelay2 = FakeLag:CreateSlider({
     Name = "Unanchored Delay",
     Min = 0,
     Max = 20,
-    HoverText = "Not Anchored Delay Value",
+    Tooltip = "Not Anchored Delay Value",
     Function = function() end,
     Default = 7
 })
@@ -9343,7 +9343,7 @@ FakeLagDelayLegit = FakeLag:CreateSlider({
     Name = "Legit",
     Min = 1,
     Max = 10,
-    HoverText = "Legit Time",
+    Tooltip = "Legit Time",
     Function = function() end,
     Default = 3
 })
@@ -9352,7 +9352,7 @@ FakeLagSpeed1 = FakeLag:CreateSlider({
     Name = "Speed 1",
     Min = 1,
     Max = 22,
-    HoverText = "Speed 1 Value",
+    Tooltip = "Speed 1 Value",
     Function = function() end,
     Default = 22
 })
@@ -9361,7 +9361,7 @@ FakeLagSpeed2 = FakeLag:CreateSlider({
     Name = "Speed 2",
     Min = 1,
     Max = 20,
-    HoverText = "Speed 2 Value",
+    Tooltip = "Speed 2 Value",
     Function = function() end,
     Default = 18
 })
@@ -9370,7 +9370,7 @@ FakeLagSpeed3 = FakeLag:CreateSlider({
     Name = "Speed 3",
     Min = 1,
     Max = 20,
-    HoverText = "Speed 3 Value",
+    Tooltip = "Speed 3 Value",
     Function = function() end,
     Default = 20
 })
@@ -9379,7 +9379,7 @@ FakeLagSpeed4 = FakeLag:CreateSlider({
     Name = "Speed Delay 1",
     Min = 1,
     Max = 3,
-    HoverText = "Speed Delay 1 Value",
+    Tooltip = "Speed Delay 1 Value",
     Function = function() end,
     Default = 2.7
 })
@@ -9388,7 +9388,7 @@ FakeLagSpeed5 = FakeLag:CreateSlider({
     Name = "Speed Delay 2",
     Min = 1,
     Max = 3,
-    HoverText = "Speed Delay 2 Value",
+    Tooltip = "Speed Delay 2 Value",
     Function = function() end,
     Default = 1.5
 })
@@ -9422,9 +9422,10 @@ run(function()
 				ImageLabel.BackgroundTransparency = 1
 				ImageLabel.BorderColor3 = Color3.new(0, 0, 0)
 				ImageLabel.BorderSizePixel = 0
-				ImageLabel.Position = UDim2.new(1, -254, 1, -420)
+				ImageLabel.AnchorPoint = Vector2.new(1, 0)
+				ImageLabel.Position = UDim2.new(1, -1, 0, -3)
 				ImageLabel.Size = UDim2.new(0, 244, 0, 410)
-				ImageLabel.Image = tostring(anime_imageids['Waifu1'])
+				ImageLabel.Image = tostring(anime_imageids[tostring(AnimeSelection.Value)])
 				ImageLabel.ScaleType = Enum.ScaleType.Fit
 				scaledUI.Scale = math.max(ImageLabel.AbsoluteSize.X / 1920, 0.6)
 				scale = math.max(ImageLabel.AbsoluteSize.X / 1920, 0.6)
@@ -9434,13 +9435,6 @@ run(function()
 				AnimeImages:Clean(ImageLabel:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
 					scaledUI.Scale = math.max(ImageLabel.AbsoluteSize.X / 1920, 0.6)
 				end))
-				
-				local function ICKZ_fake_script()
-					local script = Instance.new('LocalScript', ImageLabel)
-					script.Parent:TweenPosition(UDim2.new(0.89, 0,0,0),Enum.EasingDirection.Out, Enum.EasingStyle.Bounce, 2)
-				end
-				
-				coroutine.wrap(ICKZ_fake_script)()
             end)
         end,
         
@@ -9463,9 +9457,10 @@ run(function()
 				ImageLabel.BackgroundTransparency = 1
 				ImageLabel.BorderColor3 = Color3.new(0, 0, 0)
 				ImageLabel.BorderSizePixel = 0
-				ImageLabel.Position = UDim2.new(0.837289751, 0, 1, 0)
+				ImageLabel.AnchorPoint = Vector2.new(1, 0)
+				ImageLabel.Position = UDim2.new(1, -1, 0, -25)
 				ImageLabel.Size = UDim2.new(0, 244, 0, 410)
-				ImageLabel.Image = tostring(anime_imageids['Waifu2'])
+				ImageLabel.Image = tostring(anime_imageids[tostring(AnimeSelection.Value)])
 				ImageLabel.ScaleType = Enum.ScaleType.Fit
 				scaledUI.Scale = math.max(ImageLabel.AbsoluteSize.X / 1920, 0.6)
 				scale = math.max(ImageLabel.AbsoluteSize.X / 1920, 0.6)
@@ -9475,13 +9470,6 @@ run(function()
 				AnimeImages:Clean(ImageLabel:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
 					scaledUI.Scale = math.max(ImageLabel.AbsoluteSize.X / 1920, 0.6)
 				end))
-
-				local function animefunc()
-					local script = Instance.new('LocalScript', ImageLabel)
-					script.Parent:TweenPosition(UDim2.new(0.89, 0,0,0),Enum.EasingDirection.Out, Enum.EasingStyle.Bounce, 2)
-				end
-
-				coroutine.wrap(animefunc)()
             end)
         end
     }
