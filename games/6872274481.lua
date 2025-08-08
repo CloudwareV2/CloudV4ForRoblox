@@ -8912,6 +8912,7 @@ run(function()
     }
 
     local function getWord(msg)
+		msg = string.lower(tostring(msg))
         for i,v in blacklistedwords do
             if string.find(tostring(msg), v) then
                 return true
