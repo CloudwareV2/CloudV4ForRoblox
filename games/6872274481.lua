@@ -640,7 +640,12 @@ run(function()
 	end
 	vape:Clean(entitylib.Events.LocalAdded:Connect(updateVelocity))
 end)
+
 entitylib.start()
+
+if identifyexecutor and table.find({'Delta'}, ({identifyexecutor()})[1]) then
+	notif('Vape', 'Until Delta can fix their functions, it\'s not supported.', 10)
+end
 
 run(function()
 	local KnitInit, Knit
@@ -8604,13 +8609,13 @@ run(function()
 end)
 
 run(function()
-    local ZoomUnlocker: table = {};
+    local ZoomUnlocker
     ZoomUnlocker = vape.Categories.CloudWare:CreateModule({
         Name = "Zoom Unlocker",
         Function = function(callback)
-	    if callback then
-            	lplr.CameraMaxZoomDistance = enabled and math.huge or 128
-	    end;
+	    	if callback then
+            	lplr.CameraMaxZoomDistance = callback and math.huge or 128
+			end
         end,
         Tooltip = "Makes it so you can zoom infinitely"
     })
@@ -8706,7 +8711,7 @@ run(function()
             local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 
             if callback then
-                vape:CreateNotification('Invisibilty', 'When You die turn it off and enable it again or you are visible ', 4)
+                notif('Invisibilty', 'When You die turn it off and enable it again or you are visible ', 4)
                 modifyHRP(true)
                 setCharacterVisibility(false)
                 startLoop(character)
@@ -9514,25 +9519,66 @@ run(function()
 end)
 
 run(function()
-    local ChatTag: table = {}
+    local ChatTag
+	local TagColor
+	local TagText
     ChatTag = vape.Categories.CloudWare:CreateModule({
-        Name = "ChatTag",
+        Name = 'ChatTag',
         Function = function(callback)
             if callback then
                 textChatService.OnIncomingMessage = function(message: string?)
-                    local prop = Instance.new("TextChatMessageProperties");
+                    local prop = Instance.new('TextChatMessageProperties')
                     if message.TextSource and message.TextSource.UserId == lplr.UserId then
-                        prop.PrefixText = "<font color='#ff0000'>[CloudwareV2 VXPE☁️]</font> " .. (message.PrefixText or "");
-                    end;
-                    return prop;
-                end;
+						local color = Color3.fromHSV(TagColor['Hue'], TagColor['Sat'], TagColor.Value)
+						local txt = TagText.Value or 'Cloudware V2 VXPE ☁️'
+
+						prop.PrefixText = string.format("<font color='#%s'>[%s]</font> %s", color:ToHex(), txt, message.PrefixText or '')
+                    end
+                    return prop
+                end
             else
-                textChatService.OnIncomingMessage = nil;
-            end;
+                textChatService.OnIncomingMessage = nil
+            end
         end,
-        Tooltip = "Adds a tag next to your name when you chat."
+        Tooltip = 'Adds a text next to your name every time you chat'
     })
+	TagColor = ChatTag:CreateColorSlider({
+		Name = 'Tag Color',
+		DefaultOpacity = 0.5,
+		Function = function(hue, sat, val)
+			textChatService.OnIncomingMessage = function(message: string?)
+                local prop = Instance.new('TextChatMessageProperties')
+                if message.TextSource and message.TextSource.UserId == lplr.UserId then
+					local color = Color3.fromHSV(hue, sat, val)
+					local txt = TagText.Value or 'Cloudware V2 VXPE ☁️'
+                    prop.PrefixText = string.format("<font color='#%s'>[%s]</font> %s", color:ToHex(), txt, message.PrefixText or '')
+                end
+                return prop
+            end
+		end,
+		Visible = true
+	})
+	TagText = ChatTag:CreateTextBox({
+		Name = 'TagText',
+		Default = 'Cloudware V2 VXPE ☁️',
+		Function = function(val)
+			textChatService.OnIncomingMessage = function(message: string?)
+                local prop = Instance.new('TextChatMessageProperties')
+                if message.TextSource and message.TextSource.UserId == lplr.UserId then
+					local color = Color3.fromHSV(TagColor['Hue'], TagColor['Sat'], TagColor.Value)
+					local txt = TagText.Value or 'Cloudware V2 VXPE ☁️'
+                    prop.PrefixText = string.format("<font color='#%s'>[%s]</font> %s", color:ToHex(), txt, message.PrefixText or '')
+                end
+                return prop
+            end
+		end,
+		Visible = true
+	})
 end)
-																																																																																																																																																																																	
-notif('Cloud', 'nuker == breaker', 4.5)
+
+if not isfile('newvape/profiles/nofirst.txt') then
+	writefile('newvape/profiles/nofirst.txt', 'true')
+	notif('Cloud', 'nuker == breaker', 4.5)
+end
+
 return notif('Cloud', 'Loaded successfully!', 10)
