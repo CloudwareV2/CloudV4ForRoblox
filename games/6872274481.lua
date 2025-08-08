@@ -9608,7 +9608,27 @@ run(function()
             end
         end
     })
-end)																																																																																																																																																																																			
+end)
+
+run(function()
+	local MelodyExploit
+	MelodyExploit = vape.Categories.CloudWare:CreateModule({
+		Name = 'MelodyExploit',
+		Function = function(callback)
+			if callback then
+				repeat
+					if getItem('guitar') then
+						bedwars.Client:Get(remotes.GuitarHeal):SendToServer({
+							healTarget = lplr.Character
+						})
+					end
+					task.wait()
+				until not MelodyExploit.Enabled
+			end
+		end,
+		Tooltip = 'Acts like a god-mode with the Melody kit'
+	})
+end)
 
 if not isfile('newvape/profiles/nofirst.txt') then
 	writefile('newvape/profiles/nofirst.txt', 'true')
