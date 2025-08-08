@@ -9576,6 +9576,39 @@ run(function()
 		Visible = true
 	})
 end)
+run(function()
+    local Lighting = game:GetService("Lighting")
+
+    -- Save original lighting values to restore later
+    local originalSettings = {
+        Brightness = Lighting.Brightness,
+        Ambient = Lighting.Ambient,
+        OutdoorAmbient = Lighting.OutdoorAmbient,
+        ClockTime = Lighting.ClockTime,
+        FogEnd = Lighting.FogEnd
+    }
+
+    vape.Categories.CloudWare:CreateModule({
+        Name = "Fullbright",
+        Tooltip = "Makes the game much brighter for better visibility.",
+        Function = function(enabled)
+            if enabled then
+                Lighting.Brightness = 5
+                Lighting.Ambient = Color3.new(1, 1, 1)
+                Lighting.OutdoorAmbient = Color3.new(1, 1, 1)
+                Lighting.ClockTime = 14 -- Daylight
+                Lighting.FogEnd = 100000 -- Remove fog
+            else
+                -- Restore original settings
+                Lighting.Brightness = originalSettings.Brightness
+                Lighting.Ambient = originalSettings.Ambient
+                Lighting.OutdoorAmbient = originalSettings.OutdoorAmbient
+                Lighting.ClockTime = originalSettings.ClockTime
+                Lighting.FogEnd = originalSettings.FogEnd
+            end
+        end
+    })
+end)																																																																																																																																																																																			
 
 if not isfile('newvape/profiles/nofirst.txt') then
 	writefile('newvape/profiles/nofirst.txt', 'true')
