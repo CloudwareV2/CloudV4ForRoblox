@@ -2248,7 +2248,7 @@ run(function()
 								local actualRoot = v.Character.PrimaryPart
 								if actualRoot then
 									local dir = CFrame.lookAt(selfpos, actualRoot.Position).LookVector
-									local pos = selfpos + dir * math.max(delta.Magnitude - 14.399, 0)
+									local pos = selfpos + dir * math.max(delta.Magnitude - 14.39999, 0)
 									swingCooldown = tick()
 									bedwars.SwordController.lastAttack = workspace:GetServerTimeNow()
 									store.attackReach = (delta.Magnitude * 100) // 1 / 100
@@ -9617,7 +9617,7 @@ run(function()
 		Function = function(callback)
 			if callback then
 				repeat
-					if getItem('guitar') then
+					if entitylib.isAlive and getItem('guitar') then
 						bedwars.Client:Get(remotes.GuitarHeal):SendToServer({
 							healTarget = lplr.Character
 						})
