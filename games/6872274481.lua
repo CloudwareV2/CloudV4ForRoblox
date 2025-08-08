@@ -7391,7 +7391,7 @@ run(function()
 		Tooltip = 'Break blocks around you automatically'
 	})
 	Range = Breaker:CreateSlider({
-		Name = '',
+		Name = 'Break range',
 		Min = 1,
 		Max = 30,
 		Default = 30,
