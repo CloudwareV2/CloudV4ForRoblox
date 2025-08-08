@@ -644,7 +644,7 @@ end)
 entitylib.start()
 
 if identifyexecutor and table.find({'Delta'}, ({identifyexecutor()})[1]) then
-	notif('Vape', 'Until Delta can fix their functions, it\'s not supported.', 10)
+	notif('Vape', 'Until Delta fixes their functions, it\'s not supported. You can use KRNL in the meantime @ krnl.cat', 10)
 end
 
 run(function()
