@@ -9405,21 +9405,35 @@ run(function()
     local animefunctions = {
         Waifu1 = function() 
             task.spawn(function()
+				local scale
+				local scaledUI = Instance.new('UIScale')
 				local Anime = Instance.new('ScreenGui')
 				local ImageLabel = Instance.new('ImageLabel')
+				local scalebla = Instance.new('Frame')
 				Anime.Name = 'Anime'
 				Anime.Parent = coreGui
 				Anime.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+				scalebla.Name = 'ScaledGui'
+				scalebla.Size = UDim2.fromScale(1, 1)
+				scalebla.BackgroundTransparency = 1
+				scalebla.Parent = gui
 				ImageLabel.Parent = Anime
 				ImageLabel.BackgroundColor3 = Color3.new(1, 1, 1)
 				ImageLabel.BackgroundTransparency = 1
 				ImageLabel.BorderColor3 = Color3.new(0, 0, 0)
 				ImageLabel.BorderSizePixel = 0
-				ImageLabel.Position = UDim2.new(0.837289751, 0, 1, 0)
+				ImageLabel.Position = UDim2.new(1, -254, 1, -420)
 				ImageLabel.Size = UDim2.new(0, 244, 0, 410)
 				ImageLabel.Image = tostring(anime_imageids['Waifu1'])
 				ImageLabel.ScaleType = Enum.ScaleType.Fit
-				Anime.ResetOnSpawn = false
+				scaledUI.Scale = math.max(ImageLabel.AbsoluteSize.X / 1920, 0.6)
+				scale = math.max(ImageLabel.AbsoluteSize.X / 1920, 0.6)
+				scaledUI.Parent = ImageLabel
+				scalebla.Size = UDim2.fromScale(1 / scale, 1 / scale)
+
+				AnimeImages:Clean(ImageLabel:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
+					scaledUI.Scale = math.max(ImageLabel.AbsoluteSize.X / 1920, 0.6)
+				end))
 				
 				local function ICKZ_fake_script()
 					local script = Instance.new('LocalScript', ImageLabel)
@@ -9432,11 +9446,18 @@ run(function()
         
         Waifu2 = function() 
             task.spawn(function()
-                local Anime = Instance.new('ScreenGui')
+				local scale
+				local scaledUI = Instance.new('UIScale')
+				local Anime = Instance.new('ScreenGui')
 				local ImageLabel = Instance.new('ImageLabel')
+				local scalebla = Instance.new('Frame')
 				Anime.Name = 'Anime'
 				Anime.Parent = coreGui
 				Anime.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+				scalebla.Name = 'ScaledGui'
+				scalebla.Size = UDim2.fromScale(1, 1)
+				scalebla.BackgroundTransparency = 1
+				scalebla.Parent = Anime
 				ImageLabel.Parent = Anime
 				ImageLabel.BackgroundColor3 = Color3.new(1, 1, 1)
 				ImageLabel.BackgroundTransparency = 1
@@ -9446,7 +9467,15 @@ run(function()
 				ImageLabel.Size = UDim2.new(0, 244, 0, 410)
 				ImageLabel.Image = tostring(anime_imageids['Waifu2'])
 				ImageLabel.ScaleType = Enum.ScaleType.Fit
-				Anime.ResetOnSpawn = false
+				scaledUI.Scale = math.max(ImageLabel.AbsoluteSize.X / 1920, 0.6)
+				scale = math.max(ImageLabel.AbsoluteSize.X / 1920, 0.6)
+				scaledUI.Parent = ImageLabel
+				scalebla.Size = UDim2.fromScale(1 / scale, 1 / scale)
+
+				AnimeImages:Clean(ImageLabel:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
+					scaledUI.Scale = math.max(ImageLabel.AbsoluteSize.X / 1920, 0.6)
+				end))
+
 				local function animefunc()
 					local script = Instance.new('LocalScript', ImageLabel)
 					script.Parent:TweenPosition(UDim2.new(0.89, 0,0,0),Enum.EasingDirection.Out, Enum.EasingStyle.Bounce, 2)
@@ -9495,6 +9524,7 @@ run(function()
 		List = {'Waifu1', 'Waifu2'}
 	})
 end)
+
 run(function()
     local ChatTag: table = {}
     ChatTag = vape.Categories.CloudWare:CreateModule({
