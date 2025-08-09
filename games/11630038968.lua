@@ -102,6 +102,7 @@ end)
 for _, v in {'Reach', 'SilentAim', 'Disabler', 'HitBoxes', 'MurderMystery', 'AutoRejoin'} do
 	vape:Remove(v)
 end
+
 run(function()
 	local AutoClicker
 	local CPS
