@@ -1,11 +1,3 @@
---[[
-
-    kool.aid --> Bedwarz (Cheat-Engine)
-    by @stav and @sus
-    
-    Forever will, forever always undetected
-]]
-
 local run = function(func) func() end
 local cloneref = cloneref or function(obj) return obj end
 
@@ -97,7 +89,7 @@ local function getItem(type)
     return false
 end
 
-for _, v in {'Reach', 'SilentAim', 'Disabler', 'HitBoxes', 'MurderMystery', 'AutoRejoin', 'TriggerBot', 'AutoClicker'} do
+for _, v in {'Reach', 'SilentAim', 'Disabler', 'HitBoxes', 'MurderMystery', 'AutoRejoin', 'AutoClicker'} do
 	vape:Remove(v)
 end
 
@@ -293,9 +285,10 @@ run(function()
                     task.spawn(function()
                         for _, v in beds do
                             for _, part in v:GetDescendants() do
-                                if entitylib.isAlive and getItem('Pickaxes') and part:IsA('BasePart') and (lplr.Character.HumanoidRootPart.Position - part.Position).Magnitude <= Range.Value then
+                                if entitylib.isAlive and part:IsA('BasePart') and (lplr.Character.HumanoidRootPart.Position - part.Position).Magnitude <= Range.Value then
                                     task.spawn(function()
                                         for _, i in getPickaxe() do
+                                            if not getItem('Pickaxes') then continue end
                                             replicatedStorage.Remotes.DamageBlock:InvokeServer(v, i)
                                         end
                                     end)
@@ -324,9 +317,7 @@ run(function()
     local AntiHit
     local TimeUp
     local TimeDown
-    local Targets
     local Range
-    local Max
 
     AntiHit = vape.Categories.Blatant:CreateModule({
         Name = 'AntiHit',
