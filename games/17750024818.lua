@@ -166,7 +166,13 @@ run(function()
                                         local suc, res = pcall(require, tool.ViewModelModule)
                                         if suc == true and res then
                                             res = viewmodel
+                                            if vape.ThreadFix then
+                                                setthreadidentity(2)
+                                            end
                                             viewmodel.PlayAnimation()
+                                            if vape.ThreadFix then
+                                                setthreadidentity(8)
+                                            end
                                         end
 
                                         tool.HandlePart.Swing:Play()
