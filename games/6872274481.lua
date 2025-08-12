@@ -8943,6 +8943,14 @@ run(function()
                         end))
                     end
                 end
+
+				AutoCorrect:Clean(playersService.PlayerAdded:Connect(function(plr)
+                    AutoCorrect:Clean(plr.Chatted:Connect(function(msg)
+						if getWord(msg) then
+							sendmsg('Actually, '..plr.Name..' it\'s called "Exploiters/Exploits".')
+						end
+					end))
+                end))
             end
         end,
         Tooltip = 'Automatically corrects someone for using the incorrect terminology.'

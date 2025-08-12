@@ -63,6 +63,8 @@ local function getTool()
 	return lplr.Character and lplr.Character:FindFirstChildWhichIsA('Tool', true) or nil
 end
 
+local AutoTool -- we are SO spoofing ITEMS with this one!
+
 local function getPickaxe()
     local pickaxes = {}
     for i,v in ipairs(store.items.Pickaxes) do
@@ -89,7 +91,7 @@ end
 
 local function getItem(type)
     for i,v in ipairs(store.items[type]) do
-        if entitylib.isAlive and getTool() then
+        if entitylib.isAlive and getTool().Name == v then
             return true
         end
     end
@@ -97,7 +99,22 @@ local function getItem(type)
     return false
 end
 
-for _, v in {'Reach', 'SilentAim', 'Disabler', 'HitBoxes', 'MurderMystery', 'AutoRejoin', 'AutoClicker'} do
+local function switchTool(tool)
+    if not AutoTool.Enabled then return end
+
+    local tools = typeof(tool) == 'Instance' and tool or hasTool(tool)
+    local oldtool = getTool()
+
+    if oldtool and tools and oldtool.Name ~= tools.Name then
+        oldtool.Parent = lplr.Backpack
+    end
+
+    if tools then
+        tools.Parent = lplr.Character
+    end
+end
+
+for _, v in {'Reach', 'SilentAim', 'Disabler', 'HitBoxes', 'MurderMystery', 'AutoRejoin', 'AutoClicker', 'ProfileInstaller'} do
 	vape:Remove(v)
 end
 
@@ -108,6 +125,8 @@ run(function()
     local AngleSlider
     local Targets
     local AliveItemCheck
+    local Swing
+    local SwingDelay = tick()
 
     Killaura = vape.Categories.Blatant:CreateModule({
         Name = 'Killaura',
@@ -136,6 +155,23 @@ run(function()
 								if angle > (math.rad(AngleSlider.Value) / 2) then continue end
 
                                 targetinfo.Targets[v] = tick() + 1
+
+                                -- thx qwerty for not giving me aids
+                                if not Swing.Enabled and SwingDelay < tick() then
+                                    SwingDelay = tick() + 0.1
+
+                                    if getItem('Swords') then
+                                        local tool = getTool()
+                                        local viewmodel
+                                        local suc, res = pcall(require, tool.ViewModelModule)
+                                        if suc == true and res then
+                                            res = viewmodel
+                                            viewmodel.PlayAnimation()
+                                        end
+
+                                        tool.HandlePart.Swing:Play()
+                                    end
+                                end
 
                                 task.spawn(function()
                                     for _, i in getSword() do
@@ -174,6 +210,9 @@ run(function()
 		Min = 1,
 		Max = 360,
 		Default = 360
+	})
+    Swing = Killaura:CreateToggle({
+		Name = 'No Swing'
 	})
     AliveItemCheck = Killaura:CreateToggle({
 		Name = 'Alive/Item Check',
@@ -284,8 +323,8 @@ end)
 
 -- REWRITTEN from dms with @sus
 
+local Breaker
 run(function()
-    local Breaker
     local Range
 
     Breaker = vape.Categories.Minigames:CreateModule({
@@ -294,6 +333,7 @@ run(function()
             if callback then
                 repeat
                     local beds = workspace:WaitForChild("Map"):WaitForChild("Beds"):GetChildren()
+                    local tool = getTool()
 
                     task.spawn(function()
                         for _, v in beds do
@@ -301,12 +341,18 @@ run(function()
                                 if entitylib.isAlive and part:IsA('BasePart') and (lplr.Character.HumanoidRootPart.Position - part.Position).Magnitude <= Range.Value then
                                     task.spawn(function()
                                         for _, i in getPickaxe() do
-                                            if not getItem('Pickaxes') then continue end
+                                            if not getItem('Pickaxes') then
+                                                switchTool(i)
+                                            end
                                             replicatedStorage.Remotes.DamageBlock:InvokeServer(v, i)
 
                                             break
                                         end
                                     end)
+
+                                    if tool and tool.Parent == lplr.Backpack then
+                                        switchTool(tool)
+                                    end
 
                                     break
                                 end
@@ -355,7 +401,7 @@ run(function()
                             if v.Targetable then
                                 local part = getPart(v)
                                 if v.Health > 0 and part and (entitylib.character.RootPart.Position - part.Position).Magnitude <= Range.Value then
-                                    defend(v.Character.PrimaryPart.Position)
+                                    defend(part.Position)
                                     break
                                 end
                             end
@@ -389,4 +435,42 @@ run(function()
 		Max = 1,
 		Default = 0.1
 	})
+end)
+
+run(function()
+    local TrapDisabler
+
+    local handletraps = function(trap) -- this is js so it doesn't LAG the client every time a descendant is added
+        if not (trap:IsA('BasePart') and trap.Name == 'Hitbox') then
+            return
+        end
+
+        if trap:FindFirstChild('Explosion') and trap:FindFirstChild('TouchInterest') then
+            trap.TouchInterest:Destroy()
+            return
+        end
+    end
+
+    TrapDisabler = vape.Categories.Utility:CreateModule({
+        Name = 'TrapDisabler',
+        Function = function(callback)
+            if callback then
+                for i,v in game:GetDescendants() do
+                    task.spawn(handletraps, v)
+                end
+
+                TrapDisabler:Clean(game.DescendantAdded:Connect(function(v)
+                    task.spawn(handletraps, v)
+                end))
+            end
+        end,
+        Tooltip = 'Automatically disables traps'
+    })
+end)
+
+run(function()
+    AutoTool = vape.Categories.World:CreateModule({
+		Name = 'AutoTool',
+		Tooltip = 'Automatically selects the correct tool'
+    })
 end)
