@@ -9642,7 +9642,7 @@ run(function()
     local ClientCrasher
     local Method
 
-    ClientCrasher = vape.Categories.Minigames:CreateModule({
+    ClientCrasher = vape.Categories.CloudWare:CreateModule({
         Name = 'Crasher',
         Function = function(call)
             if call then
