@@ -9637,6 +9637,7 @@ run(function()
 		Tooltip = 'Acts like a god-mode with the Melody kit'
 	})
 end)
+
 run(function()
     local ClientCrasher
     local Method
@@ -9645,7 +9646,7 @@ run(function()
         Name = 'Crasher',
         Function = function(call)
             if call then
-                for _, v in getconnections(game:GetService("ReplicatedStorage"):WaitForChild("events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"):WaitForChild("abilityUsed").OnClientEvent) do
+                for _, v in getconnections(replicatedStorage:WaitForChild("events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"):WaitForChild("abilityUsed").OnClientEvent) do
                     v:Disconnect()    
                 end
 
@@ -9660,7 +9661,8 @@ run(function()
                     if entitylib.isAlive then
                         if Method.Value == 'Ability' then
                             for _ = 1, 1525 do
-                                replicatedStorage['events-@easy-games/game-core:shared/game-core-networking@getEvents.Events'].useAbility:FireServer('oasis_swap_staff')
+								bedwars.AbilityController:useAbility('oasis_swap_staff')
+                                --replicatedStorage['events-@easy-games/game-core:shared/game-core-networking@getEvents.Events'].useAbility:FireServer('oasis_swap_staff')
                             end
                             task.wait(0.1)
                         elseif Method.Value == 'Item' then
@@ -9680,7 +9682,7 @@ run(function()
         List = {'Item', 'Ability'}
     })
 end)
-																																																																																																																																																																																			
+
 if not isfile('newvape/profiles/nofirst.txt') then
 	writefile('newvape/profiles/nofirst.txt', 'true')
 	notif('Cloud', 'nuker == breaker', 4.5)
