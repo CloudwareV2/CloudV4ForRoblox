@@ -9646,6 +9646,11 @@ run(function()
         Name = 'Crasher',
         Function = function(call)
             if call then
+				if not getconnections then
+					notif('Cloud', 'no getconnections --> no crasher 4 u')
+					return ClientCrasher:Toggle()
+				end
+				
                 for _, v in getconnections(replicatedStorage:WaitForChild("events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"):WaitForChild("abilityUsed").OnClientEvent) do
                     v:Disconnect()    
                 end
