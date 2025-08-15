@@ -9666,8 +9666,11 @@ run(function()
                     if entitylib.isAlive then
                         if Method.Value == 'Ability' then
                             for _ = 1, 1525 do
-								bedwars.AbilityController:useAbility('oasis_swap_staff')
-                                --replicatedStorage['events-@easy-games/game-core:shared/game-core-networking@getEvents.Events'].useAbility:FireServer('oasis_swap_staff')
+								if shared.AbilityDebug then
+									bedwars.AbilityController:useAbility('oasis_swap_staff')
+								else
+                                	replicatedStorage['events-@easy-games/game-core:shared/game-core-networking@getEvents.Events'].useAbility:FireServer('oasis_swap_staff')
+								end
                             end
                             task.wait(0.1)
                         elseif Method.Value == 'Item' then
