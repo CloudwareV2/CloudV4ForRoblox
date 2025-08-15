@@ -644,7 +644,7 @@ end)
 entitylib.start()
 
 if identifyexecutor and table.find({'Delta'}, ({identifyexecutor()})[1]) then
-	notif('Vape', 'Until Delta fixes their functions, it\'s not supported. You can use KRNL in the meantime @ krnl.cat', 10)
+	notif('Vape', 'no pinata/farmer funcs cuz shit exec', 4)
 end
 
 run(function()
@@ -741,7 +741,7 @@ run(function()
 		ConsumeItem = debug.getproto(Knit.Controllers.ConsumeController.onEnable, 1),
 		ConsumeSoul = Knit.Controllers.GrimReaperController.consumeSoul,
 		ConsumeTreeOrb = debug.getproto(Knit.Controllers.EldertreeController.createTreeOrbInteraction, 1),
-		DepositPinata = debug.getproto(debug.getproto(Knit.Controllers.PiggyBankController.KnitStart, 2), 5),
+		DepositPinata = identifyexecutor() ~= 'Delta' and debug.getproto(debug.getproto(Knit.Controllers.PiggyBankController.KnitStart, 2), 5) or nil,
 		DragonBreath = debug.getproto(Knit.Controllers.VoidDragonController.onKitLocalActivated, 5),
 		DragonEndFly = debug.getproto(Knit.Controllers.VoidDragonController.flapWings, 1),
 		DragonFly = Knit.Controllers.VoidDragonController.flapWings,
@@ -751,7 +751,7 @@ run(function()
 		GroundHit = Knit.Controllers.FallDamageController.KnitStart,
 		GuitarHeal = Knit.Controllers.GuitarController.performHeal,
 		HannahKill = debug.getproto(Knit.Controllers.HannahController.registerExecuteInteractions, 1),
-		HarvestCrop = debug.getproto(debug.getproto(Knit.Controllers.CropController.KnitStart, 4), 1),
+		HarvestCrop = identifyexecutor() ~= 'Delta' and debug.getproto(debug.getproto(Knit.Controllers.CropController.KnitStart, 4), 1) or nil,
 		KaliyahPunch = debug.getproto(Knit.Controllers.DragonSlayerController.onKitLocalActivated, 1),
 		MageSelect = debug.getproto(Knit.Controllers.MageController.registerTomeInteraction, 1),
 		MinerDig = debug.getproto(Knit.Controllers.MinerController.setupMinerPrompts, 1),
@@ -4167,14 +4167,14 @@ run(function()
 				})
 			end, 18, true)
 		end,
-		farmer_cletus = function()
+		farmer_cletus = identifyexecutor() ~= 'Delta' and function()
 			kitCollection('HarvestableCrop', function(v)
 				if bedwars.Client:Get(remotes.HarvestCrop):CallServer({position = bedwars.BlockController:getBlockPosition(v.Position)}) then
 					bedwars.GameAnimationUtil:playAnimation(lplr.Character, bedwars.AnimationType.PUNCH)
 					bedwars.SoundManager:playSound(bedwars.SoundList.CROP_HARVEST)
 				end
 			end, 10, false)
-		end,
+		end or function() end,
 		fisherman = function()
 			local old = bedwars.FishingMinigameController.startMinigame
 			bedwars.FishingMinigameController.startMinigame = function(_, _, result)
@@ -4268,13 +4268,13 @@ run(function()
 				})
 			end, 6, true)
 		end,
-		pinata = function()
+		pinata = identifyexecutor() ~= 'Delta' and function()
 			kitCollection(lplr.Name..':pinata', function(v)
 				if getItem('candy') then
 					bedwars.Client:Get(remotes.DepositPinata):CallServer(v)
 				end
 			end, 6, true)
-		end,
+		end or function() end,
 		spirit_assassin = function()
 			kitCollection('EvelynnSoul', function(v)
 				bedwars.SpiritAssassinController:useSpirit(lplr, v)
@@ -9650,7 +9650,7 @@ run(function()
 					notif('Cloud', 'no getconnections --> no crasher 4 u')
 					return ClientCrasher:Toggle()
 				end
-				
+
                 for _, v in getconnections(replicatedStorage:WaitForChild("events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"):WaitForChild("abilityUsed").OnClientEvent) do
                     v:Disconnect()    
                 end
@@ -9681,7 +9681,6 @@ run(function()
             end
         end
     })
-
     Method = ClientCrasher:CreateDropdown({
         Name = 'Method',
         List = {'Item', 'Ability'}
