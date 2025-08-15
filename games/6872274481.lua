@@ -9679,12 +9679,13 @@ run(function()
         Name = 'Method',
         List = {'Item', 'Ability'}
     })
-end)																																																																																																																																																																																				
+end)
+																																																																																																																																																																																			
 if not isfile('newvape/profiles/nofirst.txt') then
 	writefile('newvape/profiles/nofirst.txt', 'true')
 	notif('Cloud', 'nuker == breaker', 4.5)
 end
 
-return notif('Cloud', 'Loaded successfully!', 10)
+notif('Cloud', 'Loaded successfully!', 10)
 wait(0.5)
 return notif('Crasher', 'Crasher **IS** working', 10)																																																																																																																																																																																						\
