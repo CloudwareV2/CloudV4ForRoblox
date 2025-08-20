@@ -8558,6 +8558,8 @@ run(function()
 		List = WinEffectName
 	})
 end)
+
+-- to be rewritten
 run(function()
 	local Ambience1 = vape.Categories.CloudWare:CreateModule({
 		Name = "Ambience 1",
@@ -8872,6 +8874,7 @@ run(function()
 						end
 					end
 				end))
+
 				if inputService.TouchEnabled then
 					local Jumping = false
 					local JumpButton = lplr.PlayerGui:WaitForChild("TouchGui"):WaitForChild("TouchControlFrame"):WaitForChild("JumpButton")
@@ -9038,42 +9041,32 @@ run(function()
     })
 end)																																																																																																																																																															
 run(function()
-    local connection
-    local PartyPopperExploit = vape.Categories.CloudWare:CreateModule({
+    local PartyPopperExploit
+	PartyPopperExploit = vape.Categories.CloudWare:CreateModule({
         Name = "PartyPopperExploit",
         Function = function(callback)
             if callback then
-
-                connection = game:GetService("RunService").Heartbeat:Connect(function()
+                PartyPopperExploit:Clean(runService.Heartbeat:Connect(function()
                     bedwars.AbilityController:useAbility('PARTY_POPPER')
-                end)
-            else
-
-                if connection then
-                    connection:Disconnect()
-                    connection = nil
-                end
+                end))
             end
         end,
-        Tooltip = "Lets party"
+        Tooltip = 'LETSS PARTYYYYYY'
     })
 end)
+
 run(function()
-    local connection
-    local TrainWhistleExploit = vape.Categories.CloudWare:CreateModule({
-        Name = "TrainWhistleExploit",
+    local TrainWhistleExploit
+	TrainWhistleExploit = vape.Categories.CloudWare:CreateModule({
+        Name = 'TrainWhistleExploit',
         Function = function(callback)
             if callback then
-                connection = game:GetService("RunService").Heartbeat:Connect(function()
+                TrainWhistleExploit:Clean(runService.Heartbeat:Connect(function()
                     bedwars.AbilityController:useAbility('TRAIN_WHISTLE')
-                end)
-            else
-                if connection then
-                    connection:Disconnect()
-                end
+                end))
             end
         end,
-        Tooltip = "Makes you a train"
+        Tooltip = 'Makes you a train'
     })
 end)
 
