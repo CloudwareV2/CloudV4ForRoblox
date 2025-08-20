@@ -9649,38 +9649,41 @@ run(function()
 				if not getconnections then
 					notif('Cloud', 'no getconnections --> no crasher 4 u')
 					return ClientCrasher:Toggle()
-				end
+				else
+					for _, v in getconnections(replicatedStorage:WaitForChild("events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"):WaitForChild("abilityUsed").OnClientEvent) do
+						v:Disconnect()
+					end
 
-                for _, v in getconnections(replicatedStorage:WaitForChild("events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"):WaitForChild("abilityUsed").OnClientEvent) do
-                    v:Disconnect()    
-                end
+					for _, v in collectionService:GetTagged('inventory-entity') do
+						local item = v:WaitForChild('HandInvItem') :: IntValue?
+						for i,v in getconnections(item.Changed) do
+							v:Disable()
+						end
+					end
 
-                ClientCrasher:Clean(collectionService:GetInstanceAddedSignal('inventory-entity'):Connect(function(player: Model)
-                    local item = player:WaitForChild('HandInvItem') :: IntValue?
-                    for i,v in getconnections(item.Changed) do
-                        v:Disable()
-                    end                
-                end))
+					ClientCrasher:Clean(collectionService:GetInstanceAddedSignal('inventory-entity'):Connect(function(player: Model)
+						local item = player:WaitForChild('HandInvItem') :: IntValue?
+						for i,v in getconnections(item.Changed) do
+							v:Disable()
+						end
+					end))
 
-                repeat
-                    if entitylib.isAlive then
-                        if Method.Value == 'Ability' then
-                            for _ = 1, 1525 do
-								if shared.AbilityDebug then
+					repeat
+						if entitylib.isAlive then
+							if Method.Value == 'Ability' then
+								for _ = 1, 25 do
 									bedwars.AbilityController:useAbility('oasis_swap_staff')
-								else
-                                	replicatedStorage['events-@easy-games/game-core:shared/game-core-networking@getEvents.Events'].useAbility:FireServer('oasis_swap_staff')
 								end
-                            end
-                            task.wait(0.1)
-                        elseif Method.Value == 'Item' then
-                            for _, tool in store.inventory.inventory.items do
-                                task.spawn(switchItem, tool.tool, 0, true)
-                            end
-                        end
-                    end
-                    task.wait()
-                until not ClientCrasher.Enabled
+								task.wait(0.1)
+							elseif Method.Value == 'Item' then
+								for _, tool in store.inventory.inventory.items do
+									task.spawn(switchItem, tool.tool, 0, true)
+								end
+							end
+						end
+						task.wait()
+					until not ClientCrasher.Enabled
+				end
             end
         end
     })
@@ -9696,5 +9699,3 @@ if not isfile('newvape/profiles/nofirst.txt') then
 end
 
 notif('Cloud', 'Loaded successfully!', 10)
-wait(0.5)
-return notif('Cloud', 'Crasher **IS** working', 10)
