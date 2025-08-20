@@ -1,5 +1,9 @@
 --[[
+
+    kool.aid --> Bedwarz (Cheat Engine)
     by @stav and @sus
+    
+    Forever will, forever always undetected
 ]]
 
 local run = function(func)
@@ -91,7 +95,8 @@ end
 
 local function getItem(type)
     for i,v in ipairs(store.items[type]) do
-        if entitylib.isAlive and getTool().Name == v then
+        local tool = getTool()
+        if entitylib.isAlive and tool and tool.Name == v then
             return true
         end
     end
@@ -126,6 +131,7 @@ run(function()
     local Targets
     local AliveItemCheck
     local Swing
+    local Face
     local SwingDelay = tick()
 
     Killaura = vape.Categories.Blatant:CreateModule({
@@ -179,6 +185,11 @@ run(function()
                                     end
                                 end
 
+                                if Face.Enabled then
+                                    local vec = v.RootPart.Position * Vector3.new(1, 0, 1)
+                                    entitylib.character.RootPart.CFrame = CFrame.lookAt(entitylib.character.RootPart.Position, Vector3.new(vec.X, entitylib.character.RootPart.Position.Y + 0.001, vec.Z))
+                                end
+
                                 task.spawn(function()
                                     for _, i in getSword() do
                                         if AliveItemCheck.Enabled and getItem('Swords') == false then continue end
@@ -217,9 +228,8 @@ run(function()
 		Max = 360,
 		Default = 360
 	})
-    Swing = Killaura:CreateToggle({
-		Name = 'No Swing'
-	})
+    Face = Killaura:CreateToggle({Name = 'Face target'})
+    Swing = Killaura:CreateToggle({Name = 'No Swing'})
     AliveItemCheck = Killaura:CreateToggle({
 		Name = 'Alive/Item Check',
 		Tooltip = 'Good for closet-cheaters'
