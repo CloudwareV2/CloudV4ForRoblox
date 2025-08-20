@@ -9631,61 +9631,6 @@ run(function()
 	})
 end)
 
-run(function()
-    local ClientCrasher
-    local Method
-
-    ClientCrasher = vape.Categories.CloudWare:CreateModule({
-        Name = 'Crasher',
-        Function = function(call)
-            if call then
-				if not getconnections then
-					notif('Cloud', 'no getconnections --> no crasher 4 u')
-					return ClientCrasher:Toggle()
-				else
-					for _, v in getconnections(replicatedStorage:WaitForChild("events-@easy-games/game-core:shared/game-core-networking@getEvents.Events"):WaitForChild("abilityUsed").OnClientEvent) do
-						v:Disconnect()
-					end
-
-					for _, v in collectionService:GetTagged('inventory-entity') do
-						local item = v:WaitForChild('HandInvItem') :: IntValue?
-						for i,v in getconnections(item.Changed) do
-							v:Disable()
-						end
-					end
-
-					ClientCrasher:Clean(collectionService:GetInstanceAddedSignal('inventory-entity'):Connect(function(player: Model)
-						local item = player:WaitForChild('HandInvItem') :: IntValue?
-						for i,v in getconnections(item.Changed) do
-							v:Disable()
-						end
-					end))
-
-					repeat
-						if entitylib.isAlive then
-							if Method.Value == 'Ability' then
-								for _ = 1, 25 do
-									bedwars.AbilityController:useAbility('oasis_swap_staff')
-								end
-								task.wait(0.1)
-							elseif Method.Value == 'Item' then
-								for _, tool in store.inventory.inventory.items do
-									task.spawn(switchItem, tool.tool, 0, true)
-								end
-							end
-						end
-						task.wait()
-					until not ClientCrasher.Enabled
-				end
-            end
-        end
-    })
-    Method = ClientCrasher:CreateDropdown({
-        Name = 'Method',
-        List = {'Item', 'Ability'}
-    })
-end)
-
 if not isfile('newvape/profiles/nofirst.txt') then
 	writefile('newvape/profiles/nofirst.txt', 'true')
 	notif('Cloud', 'nuker == breaker', 4.5)
