@@ -5459,7 +5459,7 @@ run(function()
 		Tooltip = 'Automatically places strong blocks around the bed.'
 	})
 end)
-	--[[
+
 run(function()
         local ChestSteal: table = { ["Enabled"] = false };
         local Range: table = { ["Value"] = 18 };
@@ -5561,7 +5561,7 @@ run(function()
                 ["Min"] = 0,
                 ["Max"] = 1000,
                 ["Default"] = 300,
-                ["Suffix"] = function(val: number) end
+                ["Function"] = function(val: number) end
         });
         Open = ChestSteal:CreateToggle({ ["Name"] = "GUI Check" });
         Skywars = ChestSteal:CreateToggle({
@@ -5574,7 +5574,7 @@ run(function()
                 end,
                 ["Default"] = true
         });
-end)]]--
+end)
 	
 run(function()
 	local Schematica
