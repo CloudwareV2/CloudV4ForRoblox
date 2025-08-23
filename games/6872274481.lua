@@ -5461,82 +5461,119 @@ run(function()
 end)
 	
 run(function()
-	local ChestSteal
-	local Range
-	local Open
-	local Skywars
-	local Delays = {}
-	
-	local function lootChest(chest)
-		chest = chest and chest.Value or nil
-		local chestitems = chest and chest:GetChildren() or {}
-		if #chestitems > 1 and (Delays[chest] or 0) < tick() then
-			Delays[chest] = tick() + 0.2
-			bedwars.Client:GetNamespace('Inventory'):Get('SetObservedChest'):SendToServer(chest)
-	
-			for _, v in chestitems do
-				if v:IsA('Accessory') then
-					task.spawn(function()
-						pcall(function()
-							bedwars.Client:GetNamespace('Inventory'):Get('ChestGetItem'):CallServer(chest, v)
-						end)
-					end)
-				end
-			end
-	
-			bedwars.Client:GetNamespace('Inventory'):Get('SetObservedChest'):SendToServer(nil)
-		end
-	end
-	
-	ChestSteal = vape.Categories.World:CreateModule({
-		Name = 'ChestSteal',
-		Function = function(callback)
-			if callback then
-				local chests = collection('chest', ChestSteal)
-				repeat task.wait() until store.queueType ~= 'bedwars_test'
-				if (not Skywars.Enabled) or store.queueType:find('skywars') then
-					repeat
-						if entitylib.isAlive and store.matchState ~= 2 then
-							if Open.Enabled then
-								if bedwars.AppController:isAppOpen('ChestApp') then
-									lootChest(lplr.Character:FindFirstChild('ObservedChestFolder'))
-								end
-							else
-								local localPosition = entitylib.character.RootPart.Position
-								for _, v in chests do
-									if (localPosition - v.Position).Magnitude <= Range.Value then
-										lootChest(v:FindFirstChild('ChestFolderValue'))
-									end
-								end
-							end
-						end
-						task.wait(0.1)
-					until not ChestSteal.Enabled
-				end
-			end
-		end,
-		Tooltip = 'Grabs items from near chests.'
-	})
-	Range = ChestSteal:CreateSlider({
-		Name = 'Range',
-		Min = 0,
-		Max = 18,
-		Default = 18,
-		Suffix = function(val)
-			return val == 1 and 'stud' or 'studs'
-		end
-	})
-	Open = ChestSteal:CreateToggle({Name = 'GUI Check'})
-	Skywars = ChestSteal:CreateToggle({
-		Name = 'Only Skywars',
-		Function = function()
-			if ChestSteal.Enabled then
-				ChestSteal:Toggle()
-				ChestSteal:Toggle()
-			end
-		end,
-		Default = true
-	})
+        local ChestSteal: table = { ["Enabled"] = false };
+        local Range: table = { ["Value"] = 18 };
+        local Ping: table = { ["Value"] = 300 };
+        local Open: table = { ["Enabled"] = false };
+        local Skywars: table = { ["Enabled"] = false };
+        local Delays: table = {};
+        local LootedChests: table = {};
+		local pingValue: number = 0
+        task.spawn(function()
+                local pingStat: any = game:GetService("Stats"):WaitForChild("PerformanceStats"):WaitForChild("Ping");
+                while task.wait(0.05) do
+                        pingValue = tonumber(pingStat:GetValue());
+                end;
+        end);
+        local getPing: () -> number = function()
+        		return pingValue;
+		end;
+        local lootChest: (chestFolder: Instance) -> boolean = function(chestFolder: Instance): boolean
+                local chest: any = chestFolder and chestFolder.Value;
+                if not chest or LootedChests[chest] or (Delays[chest] or 0) >= tick() then
+                        return false;
+                end;
+                local ping: number? = getPing();
+                if ping > Ping["Value"] then
+                        return false;
+                end;
+                Delays[chest] = tick() + 0.3;
+                local chestItems: { Instance } = chest:GetChildren();
+                if #chestItems == 0 then return false; end;
+                pcall(function()
+                        bedwars.Client:GetNamespace("Inventory"):Get("SetObservedChest"):SendToServer(chest);
+                end);
+                for _: any, item: any in next, chestItems do
+                        if item:IsA("Accessory") then
+                                ping = getPing();
+                                if ping > Ping["Value"] then break; end;
+                                pcall(function()
+                                        bedwars.Client:GetNamespace("Inventory"):Get("ChestGetItem"):CallServer(chest, item);
+                                end);
+                                task.wait(math.max(0.03, 0.00075 * ping - 0.025));
+                        end;
+                end;
+                task.wait(0.05);
+                pcall(function()
+                        bedwars.Client:GetNamespace("Inventory"):Get("SetObservedChest"):SendToServer(nil);
+                end);
+                LootedChests[chest] = true;
+                return true;
+        end;
+        ChestSteal = vape.Categories.World:CreateModule({
+                ["Name"] = "ChestSteal",
+                ["Function"] = function(call: boolean): void
+                        if not call then return end;
+                        local chests: { Instance } = collection("chest", ChestSteal);
+                        repeat task.wait() until store.queueType ~= "bedwars_test";
+                        if (not Skywars["Enabled"]) or store.queueType:find("skywars") then
+                                while ChestSteal["Enabled"] do
+                                        task.wait(0.16);
+                                        if entitylib.isAlive and store.matchState ~= 2 then
+                                                local localPos: Vector3 = entitylib.character.RootPart.Position;
+                                                if Open["Enabled"] then
+                                                        local obsChest: Instance? = lplr.Character:FindFirstChild("ObservedChestFolder");
+                                                        if obsChest and bedwars.AppController:isAppOpen("ChestApp") then
+                                                                lootChest(obsChest);
+                                                        end;
+                                                else
+                                                        local closestChest: Instance?;
+                                                        local minDistance: number = math.huge;
+                                                        for _: any, chest: Instance in next, chests do
+                                                                local chestFolder: Instance? = chest:FindFirstChild("ChestFolderValue");
+                                                                if chestFolder and not LootedChests[chestFolder.Value] then
+                                                                        local distance: number = (localPos - chest.Position).Magnitude;
+                                                                        if distance <= Range["Value"] and distance < minDistance then
+                                                                                minDistance = distance;
+                                                                                closestChest = chestFolder;
+                                                                        end;
+                                                                end;
+                                                        end;
+                                                        if closestChest then
+                                                                lootChest(closestChest);
+                                                        end;
+                                                end;
+                                        end;
+                                end;
+                        end;
+                end,
+                ["Tooltip"] = "Grabs items from near chests (one at a time)."
+        });
+        Range = ChestSteal:CreateSlider({
+                ["Name"] = "Range",
+                ["Min"] = 0,
+                ["Max"] = 18,
+                ["Default"] = 18,
+                ["Suffix"] = function(val: number) return val == 1 and "stud" or "studs" end
+        });
+        Ping = ChestSteal:CreateSlider({
+                ["Name"] = "Ping",
+                ["Min"] = 0,
+                ["Max"] = 1000,
+                ["Default"] = 300,
+                ["Suffix"] = function(val: number) end
+        });
+        Open = ChestSteal:CreateToggle({ ["Name"] = "GUI Check" });
+        Skywars = ChestSteal:CreateToggle({
+                ["Name"] = "Only Skywars",
+                ["Function"] = function()
+                        if ChestSteal["Enabled"] then
+                                ChestSteal:Toggle();
+                                ChestSteal:Toggle();
+                        end;
+                end,
+                ["Default"] = true
+        });
 end)
 	
 run(function()
