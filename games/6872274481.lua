@@ -5459,7 +5459,7 @@ run(function()
 		Tooltip = 'Automatically places strong blocks around the bed.'
 	})
 end)
-	
+	--[[
 run(function()
         local ChestSteal: table = { ["Enabled"] = false };
         local Range: table = { ["Value"] = 18 };
@@ -5574,7 +5574,7 @@ run(function()
                 end,
                 ["Default"] = true
         });
-end)
+end)]]--
 	
 run(function()
 	local Schematica
