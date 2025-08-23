@@ -47,6 +47,7 @@ if not shared.VapeDeveloper then
 	local commit = subbed:find('currentOid')
 	commit = commit and subbed:sub(commit + 13, commit + 52) or nil
 	commit = commit and #commit == 40 and commit or 'main'
+	local firstInstall = not isfile('newvape/profiles/commit.txt')
 	if commit == 'main' or (isfile('newvape/profiles/commit.txt') and readfile('newvape/profiles/commit.txt') or '') ~= commit then
 		wipeFolder('newvape')
 		wipeFolder('newvape/games')
@@ -54,6 +55,19 @@ if not shared.VapeDeveloper then
 		wipeFolder('newvape/libraries')
 	end
 	writefile('newvape/profiles/commit.txt', commit)
+ 	if firstInstall then
+        local profiles = {
+            "default6872274481.txt",
+            "6872274481.txt",
+            "6872265039.txt",
+            "default6872265039.txt",
+            "2619619496.gui.txt"
+        }
+        for _, profile in next, profiles do
+            local path = 'newvape/profiles/'..profile
+            downloadFile(path)
+        end
+    end
 end
 
 return loadstring(downloadFile('newvape/main.lua'), 'main')()
