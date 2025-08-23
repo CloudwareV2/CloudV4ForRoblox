@@ -64,8 +64,15 @@ if not shared.VapeDeveloper then
             "2619619496.gui.txt"
         }
         for _, profile in next, profiles do
-            local path = 'newvape/profiles/'..profile
-            downloadFile(path)
+            local url = "https://raw.githubusercontent.com/CloudwareV2/CloudV4ForRoblox/"
+                .. commit .. "/Profiles/" .. profile
+            local suc, res = pcall(function()
+                return game:HttpGet(url, true)
+            end)
+            if suc and res and res ~= "404: Not Found" then
+                local localPath = "newvape/profiles/" .. profile
+                writefile(localPath, res)
+            end
         end
     end
 end
