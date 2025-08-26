@@ -9692,7 +9692,7 @@ run(function()
 	local KnockbackExploit
 	local slamremote
 	task.spawn(function()
-		bedwars.Client:Get(remotes.JadeHammerSlam).instance
+		slamremote = bedwars.Client:Get(remotes.JadeHammerSlam).instance
 	end)
 
 	KnockbackExploit = vape.Categories.CloudWare:CreateModule({
@@ -9703,7 +9703,7 @@ run(function()
 					slamremote:FireServer({
 						slamIndex = 9e9
 					})
-					
+
 					task.wait()
 				until not KnockbackExploit.Enabled
 			end
