@@ -9676,7 +9676,7 @@ run(function()
 		Function = function(callback)
 			if callback then
 				repeat
-					if getItem('jade_hammer') and bedwars.AbilityController:canUseAbility('jade_hammer_jump') then
+					if getItem('jade_hammer') then
 						bedwars.AbilityController:useAbility('jade_hammer_jump')
 					end
 
