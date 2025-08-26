@@ -9696,7 +9696,7 @@ run(function()
 	end)
 
 	KnockbackExploit = vape.Categories.CloudWare:CreateModule({
-		Name = 'KnockbackExploit'
+		Name = 'KnockbackExploit',
 		Function = function(callback)
 			if callback then
 				repeat
