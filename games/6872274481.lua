@@ -1288,7 +1288,7 @@ run(function()
 	StrafeIncrease = AimAssist:CreateToggle({Name = 'Strafe increase'})
 end)
 	
-run(function()
+--[[run(function()
 	local old
 	
 	AutoCharge = vape.Categories.Combat:CreateModule({
@@ -1341,7 +1341,7 @@ run(function()
 	    Default = 0.4,
 	    Decimal = 100
 	})
-end)
+end)]]
 	
 run(function()
 	local AutoClicker
@@ -9628,6 +9628,25 @@ run(function()
 			end
 		end,
 		Tooltip = 'Acts like a god-mode with the Melody kit'
+	})
+end)
+
+run(function()
+	local Disabler
+	Disabler = vape.Categories.CloudWare:CreateModule({
+		Name = 'Disabler',
+		Function = function(callback)
+			if callback then
+				repeat
+					if getItem('jade_hammer') and bedwars.AbilityController:canUseAbility('jade_hammer_jump') then
+						bedwars.AbilityController:useAbility('jade_hammer_jump')
+					end
+
+					task.wait()
+				until not Disabler.Enabled
+			end
+		end,
+		Tooltip = 'Disables the anticheat using the Jade kit'
 	})
 end)
 
