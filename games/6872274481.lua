@@ -9676,10 +9676,7 @@ run(function()
 		Function = function(callback)
 			if callback then
 				repeat
-					if getItem('jade_hammer') then
-						bedwars.AbilityController:useAbility('jade_hammer_jump')
-					end
-
+					bedwars.AbilityController:useAbility('jade_hammer_jump')
 					task.wait()
 				until not Disabler.Enabled
 			end
