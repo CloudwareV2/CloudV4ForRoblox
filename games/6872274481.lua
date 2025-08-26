@@ -9705,7 +9705,32 @@ run(function()
 		Tooltip = 'Gives more knockback to players and additionally does 15 more damage'
 	})
 end)
-
+vape.Categories.CloudWare:CreateModule({
+        Name = "SpeedBoost",
+        Tooltip = "Boosts your speed to 30 every second with a cooldown.",
+        Function = function(callback)
+            running = callback
+            if callback then
+                task.spawn(function()
+                    while running do
+                        humanoid = getHumanoid()
+                        if humanoid then
+                            local originalSpeed = humanoid.WalkSpeed
+                            humanoid.WalkSpeed = 50
+                            task.wait(0.2)
+                            if humanoid then
+                                humanoid.WalkSpeed = originalSpeed
+                            end
+                            task.wait(1)
+                        else
+                            task.wait(0.2)
+                        end
+                    end
+                end)
+            end
+        end
+    })
+end)
 if not isfile('newvape/profiles/nofirst.txt') then
 	writefile('newvape/profiles/nofirst.txt', 'true')
 	notif('Cloud', 'nuker == breaker', 4.5)
