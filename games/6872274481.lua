@@ -9690,7 +9690,7 @@ end)
 
 run(function()
 	local KnockbackExploit
-	local slamremote - replicatedStorage.rbxts_include.node_modules['@rbxts'].net.out._NetManaged.JadeHammerSlam
+	local slamremote = replicatedStorage.rbxts_include.node_modules['@rbxts'].net.out._NetManaged.JadeHammerSlam
 
 	KnockbackExploit = vape.Categories.CloudWare:CreateModule({
 		Name = 'KnockbackExploit',
