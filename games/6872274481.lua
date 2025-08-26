@@ -9690,10 +9690,7 @@ end)
 
 run(function()
 	local KnockbackExploit
-	local slamremote
-	task.spawn(function()
-		slamremote = bedwars.Client:Get(remotes.JadeHammerSlam).instance
-	end)
+	local slamremote - replicatedStorage.rbxts_include.node_modules['@rbxts'].net.out._NetManaged.JadeHammerSlam
 
 	KnockbackExploit = vape.Categories.CloudWare:CreateModule({
 		Name = 'KnockbackExploit',
