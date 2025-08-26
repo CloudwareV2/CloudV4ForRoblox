@@ -1,9 +1,5 @@
 --[[
-
-    kool.aid --> Bedwarz (Cheat Engine)
     by @stav and @sus
-    
-    Forever will, forever always undetected
 ]]
 
 local run = function(func)

@@ -55,6 +55,7 @@ if not shared.VapeDeveloper then
 		wipeFolder('newvape/libraries')
 	end
 	writefile('newvape/profiles/commit.txt', commit)
+
  	if firstInstall then
         local profiles = {
             "default6872274481.txt",
@@ -63,14 +64,14 @@ if not shared.VapeDeveloper then
             "default6872265039.txt",
             "2619619496.gui.txt"
         }
+		
         for _, profile in next, profiles do
-            local url = "https://raw.githubusercontent.com/CloudwareV2/CloudV4ForRoblox/"
-                .. commit .. "/Profiles/" .. profile
+            local url = 'https://raw.githubusercontent.com/CloudwareV2/CloudV4ForRoblox/'..commit..'/Profiles/'..profile
             local suc, res = pcall(function()
                 return game:HttpGet(url, true)
             end)
             if suc and res and res ~= "404: Not Found" then
-                local localPath = "newvape/profiles/" .. profile
+                local localPath = 'newvape/profiles'..profile
                 writefile(localPath, res)
             end
         end

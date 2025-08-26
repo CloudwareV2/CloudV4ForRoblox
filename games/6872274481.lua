@@ -9614,6 +9614,7 @@ run(function()
 		Visible = true
 	})
 end)
+
 run(function()
     local Lighting = game:GetService("Lighting")
 
@@ -9683,7 +9684,31 @@ run(function()
 				until not Disabler.Enabled
 			end
 		end,
-		Tooltip = 'Disables the anticheat using the Jade kit'
+		Tooltip = 'Allows for more speed'
+	})
+end)
+
+run(function()
+	local KnockbackExploit
+	local slamremote
+	task.spawn(function()
+		bedwars.Client:Get(remotes.JadeHammerSlam).instance
+	end)
+
+	KnockbackExploit = vape.Categories.CloudWare:CreateModule({
+		Name = 'KnockbackExploit'
+		Function = function(callback)
+			if callback then
+				repeat
+					slamremote:FireServer({
+						slamIndex = 9e9
+					})
+					
+					task.wait()
+				until not KnockbackExploit.Enabled
+			end
+		end,
+		Tooltip = 'Gives more knockback to players and additionally does 15 more damage'
 	})
 end)
 
