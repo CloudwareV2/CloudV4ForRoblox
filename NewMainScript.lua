@@ -47,6 +47,7 @@ if not shared.VapeDeveloper then
 	local commit = subbed:find('currentOid')
 	commit = commit and subbed:sub(commit + 13, commit + 52) or nil
 	commit = commit and #commit == 40 and commit or 'main'
+	local firstInstall = not isfile('newvape/profiles/commit.txt')
 	if commit == 'main' or (isfile('newvape/profiles/commit.txt') and readfile('newvape/profiles/commit.txt') or '') ~= commit then
 		wipeFolder('newvape')
 		wipeFolder('newvape/games')
@@ -54,6 +55,26 @@ if not shared.VapeDeveloper then
 		wipeFolder('newvape/libraries')
 	end
 	writefile('newvape/profiles/commit.txt', commit)
+ 	if firstInstall then
+        local profiles = {
+            "default6872274481.txt",
+            "6872274481.txt",
+            "6872265039.txt",
+            "default6872265039.txt",
+            "2619619496.gui.txt"
+        }
+        for _, profile in next, profiles do
+            local url = "https://raw.githubusercontent.com/CloudwareV2/CloudV4ForRoblox/"
+                .. commit .. "/Profiles/" .. profile
+            local suc, res = pcall(function()
+                return game:HttpGet(url, true)
+            end)
+            if suc and res and res ~= "404: Not Found" then
+                local localPath = "newvape/profiles/" .. profile
+                writefile(localPath, res)
+            end
+        end
+    end
 end
 
 return loadstring(downloadFile('newvape/main.lua'), 'main')()
