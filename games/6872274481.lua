@@ -9706,7 +9706,7 @@ run(function()
 			if callback then
 				repeat
 					if Disabler.Enabled then
-						notif('Vape', 'disabler enabled --> they won\'t work together blud')
+						notif('Vape', 'disabler enabled --> they won\'t work together blud', 5)
 						KnockbackExploit:Toggle()
 					end
 
