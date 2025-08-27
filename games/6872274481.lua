@@ -3174,6 +3174,7 @@ end)
 	
 run(function()
 	local Speed
+	local SpeedValue
 	local Value
 	local WallCheck
 	local AutoJump
@@ -3199,7 +3200,7 @@ run(function()
 	
 						local root, velo = entitylib.character.RootPart, getSpeed()
 						local moveDirection = AntiFallDirection or entitylib.character.Humanoid.MoveDirection
-						local destination = (moveDirection * math.max(Value.Value - velo, 0) * dt)
+						local destination = SpeedValue.Value == 'CFrame' and (moveDirection * math.max(Value.Value - velo, 0) * dt) or (moveDirection * math.max((tick() % 1 < 0,6 and 5 or (20 * getSpeed()) / 0.4) - velo, 0) * dt)
 	
 						if WallCheck.Enabled then
 							rayCheck.FilterDescendantsInstances = {lplr.Character, gameCamera}
@@ -3220,9 +3221,16 @@ run(function()
 			end
 		end,
 		ExtraText = function()
-			return 'Heatseeker'
+			return SpeedValue.Value
 		end,
 		Tooltip = 'Increases your movement with various methods.'
+	})
+	SpeedValue = Speed:CreateDropdown({
+		Name = 'Mode',
+		List = {'CFrame', 'Heatseeker'},
+		Function = function()
+			vape:UpdateTextGUI()
+		end
 	})
 	Value = Speed:CreateSlider({
 		Name = 'Speed',
@@ -9676,7 +9684,10 @@ run(function()
 		Function = function(callback)
 			if callback then
 				repeat
-					bedwars.AbilityController:useAbility('jade_hammer_jump')
+					if store.equippedKit == 'jade' then
+						bedwars.AbilityController:useAbility('jade_hammer_jump')
+					end
+
 					task.wait()
 				until not Disabler.Enabled
 			end
@@ -9694,6 +9705,11 @@ run(function()
 		Function = function(callback)
 			if callback then
 				repeat
+					if Disabler.Enabled then
+						notif('Vape', 'disabler enabled --> they won\'t work together blud')
+						KnockbackExploit:Toggle()
+					end
+
 					slamremote:FireServer({
 						slamIndex = 9e9
 					})
@@ -9705,6 +9721,7 @@ run(function()
 		Tooltip = 'Gives more knockback to players and additionally does 15 more damage'
 	})
 end)
+
 if not isfile('newvape/profiles/nofirst.txt') then
 	writefile('newvape/profiles/nofirst.txt', 'true')
 	notif('Cloud', 'nuker == breaker', 4.5)
