@@ -3200,7 +3200,7 @@ run(function()
 	
 						local root, velo = entitylib.character.RootPart, getSpeed()
 						local moveDirection = AntiFallDirection or entitylib.character.Humanoid.MoveDirection
-						local destination = SpeedValue.Value == 'CFrame' and (moveDirection * math.max(Value.Value - velo, 0) * dt) or (moveDirection * math.max((tick() % 1 < 0,6 and 5 or (20 * getSpeed()) / 0.4) - velo, 0) * dt)
+						local destination = SpeedValue.Value == 'CFrame' and (moveDirection * math.max(Value.Value - velo, 0) * dt) or (moveDirection * math.max((tick() % 1 < 0.6 and 5 or (20 * getSpeed()) / 0.4) - velo, 0) * dt)
 	
 						if WallCheck.Enabled then
 							rayCheck.FilterDescendantsInstances = {lplr.Character, gameCamera}
