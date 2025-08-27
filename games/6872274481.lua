@@ -9683,6 +9683,7 @@ run(function()
 		Name = 'Disabler',
 		Function = function(callback)
 			if callback then
+				notif('vape', store.equippedKit ~= nil and store.equippedKit or 'no kit', 10)
 				repeat
 					if store.equippedKit == 'jade' then
 						bedwars.AbilityController:useAbility('jade_hammer_jump')
