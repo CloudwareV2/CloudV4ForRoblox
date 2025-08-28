@@ -3200,7 +3200,7 @@ run(function()
 	
 						local root, velo = entitylib.character.RootPart, getSpeed()
 						local moveDirection = AntiFallDirection or entitylib.character.Humanoid.MoveDirection
-						local destination = SpeedValue.Value == 'CFrame' and (moveDirection * math.max(Value.Value - velo, 0) * dt) or (moveDirection * math.max((tick() % 1 < 0.6 and 5 or (20 * getSpeed()) / 0.4) - velo, 0) * dt)
+						local destination = SpeedValue.Value == 'CFrame' and (moveDirection * math.max(Value.Value - velo, 0) * dt) or (moveDirection * math.max((tick() % 1 < 0.6 and 5 or (0.6 * getSpeed()) / 0.4) - velo, 0) * dt)
 	
 						if WallCheck.Enabled then
 							rayCheck.FilterDescendantsInstances = {lplr.Character, gameCamera}
@@ -9677,12 +9677,13 @@ run(function()
 	})
 end)
 
+local Disabler
 run(function()
-	local Disabler
 	Disabler = vape.Categories.CloudWare:CreateModule({
 		Name = 'Disabler',
 		Function = function(callback)
 			if callback then
+				notif('vape', store.equippedKit ~= nil and store.equippedKit or 'no kit', 10)
 				repeat
 					if store.equippedKit == 'jade' then
 						bedwars.AbilityController:useAbility('jade_hammer_jump')
@@ -9706,7 +9707,7 @@ run(function()
 			if callback then
 				repeat
 					if Disabler.Enabled then
-						notif('Vape', 'disabler enabled --> they won\'t work together blud')
+						notif('Vape', 'disabler enabled --> they won\'t work together blud', 5)
 						KnockbackExploit:Toggle()
 					end
 
