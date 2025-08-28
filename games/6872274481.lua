@@ -1807,6 +1807,10 @@ local LongJump
 run(function()
 	local Value
 	local VerticalValue
+	local FlyValue
+	local heatseekvalue
+	local heatseekdelayvalue
+	local heatseekdelay2value
 	local WallCheck
 	local PopBalloons
 	local TP
@@ -1838,7 +1842,10 @@ run(function()
 						local mass = (1.5 + (flyAllowed and 6 or 0) * (tick() % 0.4 < 0.2 and -1 or 1)) + ((up + down) * VerticalValue.Value)
 						local root, moveDirection = entitylib.character.RootPart, entitylib.character.Humanoid.MoveDirection
 						local velo = getSpeed()
-						local destination = (moveDirection * math.max(Value.Value - velo, 0) * dt)
+						local cframefunc = function()
+							return math.max(Value.Value - velo, 0)
+						end
+						local destination = FlyValue.Value == 'CFrame' and (moveDirection * math.max(Value.Value - velo, 0) * dt) or (moveDirection * math.max((tick() % 1 < 0.6 and cframefunc() or (0.6 * getSpeed()) / 0.4) - velo, 0) * dt)
 						rayCheck.FilterDescendantsInstances = {lplr.Character, gameCamera, AntiFallPart}
 						rayCheck.CollisionGroup = root.CollisionGroup
 
@@ -1915,9 +1922,16 @@ run(function()
 			end
 		end,
 		ExtraText = function()
-			return 'Heatseeker'
+			return FlyValue.Value
 		end,
 		Tooltip = 'Makes you go zoom.'
+	})
+	FlyValue = Fly:CreateDropdown({
+		Name = 'Mode',
+		List = {'CFrame', 'Heatseeker'},
+		Function = function()
+			vape:UpdateTextGUI()
+		end
 	})
 	Value = Fly:CreateSlider({
 		Name = 'Speed',
@@ -3200,7 +3214,10 @@ run(function()
 	
 						local root, velo = entitylib.character.RootPart, getSpeed()
 						local moveDirection = AntiFallDirection or entitylib.character.Humanoid.MoveDirection
-						local destination = SpeedValue.Value == 'CFrame' and (moveDirection * math.max(Value.Value - velo, 0) * dt) or (moveDirection * math.max((tick() % 1 < 0.6 and 5 or (0.6 * getSpeed()) / 0.4) - velo, 0) * dt)
+						local cframefunc = function()
+							return math.max(Value.Value - velo, 0)
+						end
+						local destination = SpeedValue.Value == 'CFrame' and (moveDirection * cframefunc() * dt) or (moveDirection * math.max((tick() % 1 < 0.6 and cframefunc() or (0.6 * getSpeed()) / 0.4) - velo, 0) * dt)
 	
 						if WallCheck.Enabled then
 							rayCheck.FilterDescendantsInstances = {lplr.Character, gameCamera}
@@ -9683,7 +9700,7 @@ run(function()
 		Name = 'Disabler',
 		Function = function(callback)
 			if callback then
-				notif('vape', store.equippedKit ~= nil and store.equippedKit or 'no kit', 10)
+				notif('vape', store.equippedKit ~= '' and store.equippedKit or 'no kit', 10)
 				repeat
 					if store.equippedKit == 'jade' then
 						bedwars.AbilityController:useAbility('jade_hammer_jump')
