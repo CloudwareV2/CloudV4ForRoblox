@@ -671,7 +671,7 @@ run(function()
 		AnimationType = require(replicatedStorage.TS.animation['animation-type']).AnimationType,
 		AnimationUtil = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out['shared'].util['animation-util']).AnimationUtil,
 		AppController = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out.client.controllers['app-controller']).AppController,
-		BedBreakEffectMeta = require(replicatedStorage.TS.locker['break-bed-effect']['break-bed-effect-meta']).BreakBedEffectMeta,
+		BedBreakEffectMeta = require(replicatedStorage.TS.locker['bed-break-effect']['bed-break-effect-meta']).BreakBedEffectMeta,
 		BedwarsKitMeta = require(replicatedStorage.TS.games.bedwars.kit['bedwars-kit-meta']).BedwarsKitMeta,
 		BlockBreaker = Knit.Controllers.BlockBreakController.blockBreaker,
 		BlockController = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['block-engine'].out).BlockEngine,
@@ -7520,41 +7520,6 @@ run(function()
 	LimitItem = Breaker:CreateToggle({
 		Name = 'Limit to items',
 		Tooltip = 'Only breaks when tools are held'
-	})
-end)
-	
-run(function()
-	local BedBreakEffect
-	local Mode
-	local List
-	local NameToId = {}
-	
-	BedBreakEffect = vape.Legit:CreateModule({
-		Name = 'Bed Break Effect',
-		Function = function(callback)
-			if callback then
-	            BedBreakEffect:Clean(vapeEvents.BedwarsBedBreak.Event:Connect(function(data)
-	                firesignal(bedwars.Client:Get('BedBreakEffectTriggered').instance.OnClientEvent, {
-	                    player = data.player,
-	                    position = data.bedBlockPosition * 3,
-	                    effectType = NameToId[List.Value],
-	                    teamId = data.brokenBedTeam.id,
-	                    centerBedPosition = data.bedBlockPosition * 3
-	                })
-	            end))
-	        end
-		end,
-		Tooltip = 'Custom bed break effects'
-	})
-	local BreakEffectName = {}
-	for i, v in bedwars.BedBreakEffectMeta do
-		table.insert(BreakEffectName, v.name)
-		NameToId[v.name] = i
-	end
-	table.sort(BreakEffectName)
-	List = BedBreakEffect:CreateDropdown({
-		Name = 'Effect',
-		List = BreakEffectName
 	})
 end)
 	
