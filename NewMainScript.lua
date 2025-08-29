@@ -71,8 +71,7 @@ if not shared.VapeDeveloper then
                 return game:HttpGet(url, true)
             end)
             if suc and res and res ~= "404: Not Found" then
-                local localPath = 'newvape/profiles'..profile
-                writefile(localPath, res)
+                writefile('newvape/profiles/'..profile, res)
             end
         end
     end
