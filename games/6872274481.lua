@@ -8891,7 +8891,7 @@ run(function()
                 ["Name"] = "BetterStrafe",
                 ["Function"] = function(callback: boolean): void
                         if callback then
-                                connection = runService.Heartbeat:Connect(function()
+                                BetterStrafe:Clean(runService.Heartbeat:Connect(function()
                                         local hum: Humanoid? = lplr.Character and lplr.Character:FindFirstChildOfClass("Humanoid") :: Humanoid?;
                                         local hrp: BasePart? = lplr.Character and lplr.Character:FindFirstChild("HumanoidRootPart") :: BasePart?;
                                         if not (hum and hrp) then return; end;
@@ -8903,13 +8903,7 @@ run(function()
                                                         hum:MoveTo(targetHRP.Position);
                                                 end;
                                         end;
-                                end);
-
-                                return function(): nil
-                                        if connection then
-                                                connection:Disconnect();
-                                        end;
-                                end;
+                                end));
                         end;
                         return nil;
                 end,
