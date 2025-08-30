@@ -671,7 +671,7 @@ run(function()
 		AnimationType = require(replicatedStorage.TS.animation['animation-type']).AnimationType,
 		AnimationUtil = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out['shared'].util['animation-util']).AnimationUtil,
 		AppController = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out.client.controllers['app-controller']).AppController,
-		BedBreakEffectMeta = require(replicatedStorage.TS.locker['break-bed-effect']['break-bed-effect-meta']),
+		BedBreakEffectMeta = require(replicatedStorage.TS.locker['break-bed-effect']['break-bed-effect-meta']).BreakBedEffectMeta,
 		BedwarsKitMeta = require(replicatedStorage.TS.games.bedwars.kit['bedwars-kit-meta']).BedwarsKitMeta,
 		BlockBreaker = Knit.Controllers.BlockBreakController.blockBreaker,
 		BlockController = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['block-engine'].out).BlockEngine,
@@ -8869,9 +8869,9 @@ run(function()
 end)
 
 -- NIGGERS!!!!
+-- who wrote this?
 run(function()
         local BetterStrafe: table = {["Enabled"] = false};
-        local connection: RBXScriptConnection? = nil;
         local findNearestPlayer: () -> Player? = function(): Player?
                 local closest: Player? = nil;
                 local closestDist: number? = nil;
@@ -8891,11 +8891,12 @@ run(function()
                 end;
                 return closest;
         end;
+
         BetterStrafe = vape.Categories.Combat:CreateModule({
                 ["Name"] = "BetterStrafe",
                 ["Function"] = function(callback: boolean): void
                         if callback then
-                                BetterStrafe:Clean(runService.Heartbeat:Connect(function()
+                                connection = runService.Heartbeat:Connect(function()
                                         local hum: Humanoid? = lplr.Character and lplr.Character:FindFirstChildOfClass("Humanoid") :: Humanoid?;
                                         local hrp: BasePart? = lplr.Character and lplr.Character:FindFirstChild("HumanoidRootPart") :: BasePart?;
                                         if not (hum and hrp) then return; end;
@@ -8907,7 +8908,13 @@ run(function()
                                                         hum:MoveTo(targetHRP.Position);
                                                 end;
                                         end;
-                                end));
+                                end);
+
+                                return function(): nil
+                                        if connection then
+                                                connection:Disconnect();
+                                        end;
+                                end;
                         end;
                         return nil;
                 end,
@@ -9689,52 +9696,6 @@ run(function()
 			end
 		end,
 		Tooltip = 'Acts like a god-mode with the Melody kit'
-	})
-end)
-
-local Disabler
-run(function()
-	Disabler = vape.Categories.CloudWare:CreateModule({
-		Name = 'Disabler',
-		Function = function(callback)
-			if callback then
-				notif('vape', store.equippedKit ~= '' and store.equippedKit or 'no kit', 10)
-				repeat
-					if store.equippedKit == 'jade' then
-						bedwars.AbilityController:useAbility('jade_hammer_jump')
-					end
-
-					task.wait()
-				until not Disabler.Enabled
-			end
-		end,
-		Tooltip = 'Allows for more speed'
-	})
-end)
-
-run(function()
-	local KnockbackExploit
-	local slamremote = replicatedStorage.rbxts_include.node_modules['@rbxts'].net.out._NetManaged.JadeHammerSlam
-
-	KnockbackExploit = vape.Categories.CloudWare:CreateModule({
-		Name = 'KnockbackExploit',
-		Function = function(callback)
-			if callback then
-				repeat
-					if Disabler.Enabled then
-						notif('Vape', 'disabler enabled --> they won\'t work together blud', 5)
-						KnockbackExploit:Toggle()
-					end
-
-					slamremote:FireServer({
-						slamIndex = 9e9
-					})
-
-					task.wait()
-				until not KnockbackExploit.Enabled
-			end
-		end,
-		Tooltip = 'Gives more knockback to players and additionally does 15 more damage'
 	})
 end)
 
