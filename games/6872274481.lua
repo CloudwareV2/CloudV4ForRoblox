@@ -7548,12 +7548,8 @@ run(function()
 	})
 	local BreakEffectName = {}
 	for i, v in bedwars.BedBreakEffectMeta do
-		if tostring(i) == 'BedBreakEffectMeta' then
-			for x, d in v do
-				table.insert(BreakEffectName, d.name)
-				NameToId[d.name] = x
-			end
-		end
+		table.insert(BreakEffectName, v.name)
+		NameToId[v.name] = i
 	end
 	table.sort(BreakEffectName)
 	List = BedBreakEffect:CreateDropdown({
