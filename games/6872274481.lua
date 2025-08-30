@@ -671,7 +671,7 @@ run(function()
 		AnimationType = require(replicatedStorage.TS.animation['animation-type']).AnimationType,
 		AnimationUtil = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out['shared'].util['animation-util']).AnimationUtil,
 		AppController = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out.client.controllers['app-controller']).AppController,
-		BedBreakEffectMeta = require(replicatedStorage.TS.locker['bed-break-effect']['bed-break-effect-meta']).BreakBedEffectMeta,
+		BedBreakEffectMeta = require(replicatedStorage.TS.locker['bed-break-effect']['bed-break-effect-meta']),
 		BedwarsKitMeta = require(replicatedStorage.TS.games.bedwars.kit['bedwars-kit-meta']).BedwarsKitMeta,
 		BlockBreaker = Knit.Controllers.BlockBreakController.blockBreaker,
 		BlockController = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['block-engine'].out).BlockEngine,
@@ -7524,6 +7524,45 @@ run(function()
 end)
 	
 run(function()
+	local BedBreakEffect
+	local Mode
+	local List
+	local NameToId = {}
+	
+	BedBreakEffect = vape.Legit:CreateModule({
+		Name = 'Bed Break Effect',
+		Function = function(callback)
+			if callback then
+	            BedBreakEffect:Clean(vapeEvents.BedwarsBedBreak.Event:Connect(function(data)
+	                firesignal(bedwars.Client:Get('BedBreakEffectTriggered').instance.OnClientEvent, {
+	                    player = data.player,
+	                    position = data.bedBlockPosition * 3,
+	                    effectType = NameToId[List.Value],
+	                    teamId = data.brokenBedTeam.id,
+	                    centerBedPosition = data.bedBlockPosition * 3
+	                })
+	            end))
+	        end
+		end,
+		Tooltip = 'Custom bed break effects'
+	})
+	local BreakEffectName = {}
+	for i, v in bedwars.BedBreakEffectMeta do
+		if tostring(i) == 'BedBreakEffectMeta' then
+			for x, d in v do
+				table.insert(BreakEffectName, d.name)
+				NameToId[d.name] = x
+			end
+		end
+	end
+	table.sort(BreakEffectName)
+	List = BedBreakEffect:CreateDropdown({
+		Name = 'Effect',
+		List = BreakEffectName
+	})
+end)
+	
+run(function()
 	vape.Legit:CreateModule({
 		Name = 'Clean Kit',
 		Function = function(callback)
@@ -8830,7 +8869,8 @@ run(function()
 end)
 
 -- NIGGERS!!!!
-run(function()
+-- who wrote this?
+--[[run(function()
         local BetterStrafe: table = {["Enabled"] = false};
         local connection: RBXScriptConnection? = nil;
         local findNearestPlayer: () -> Player? = function(): Player?
@@ -8880,7 +8920,40 @@ run(function()
                 end,
 		["Tooltip"] = "code still aids"
         });
-end);
+end);]]
+
+run(function()
+	local BetterStrafe
+	local Targets
+	local Range
+
+	BetterStrafe = vape.Categories.Combat:CreateModule({
+		Name = 'BetterStrafe',
+		Function = function(callback)
+			if callback then
+				local ent = entitylib.EntityPosition({
+					Part = 'RootPart',
+					Range = Range.Value,
+					Players = Targets.Players.Enabled,
+					NPCs = Targets.NPCs.Enabled,
+					Wallcheck = Targets.Walls.Enabled
+				})
+	
+				if ent then
+					if #ent > 0 then
+						for _, v in ent do
+								local delta = (v.RootPart.Position - selfpos)
+								local angle = math.acos(localfacing:Dot((delta * Vector3.new(1, 0, 1)).Unit))
+						end
+					end
+				end
+
+								
+			end
+		end,
+		Tooltip = 'Rewrite'
+	})
+end)
 																																																																			
 run(function()
     local InfiniteJump
@@ -9665,9 +9738,9 @@ run(function()
 		Name = 'Disabler',
 		Function = function(callback)
 			if callback then
-				notif('vape', store.equippedKit ~= '' and store.equippedKit or 'no kit', 10)
+				notif('vape', store.equippedKit ~= nil and store.equippedKit or 'no kit', 10)
 				repeat
-					if store.equippedKit == 'jade' then
+					if Fly.Enabled and bedwars.AbilityController:canUseAbility('jade_hammer_jump') and store.equippedKit == 'jade' then
 						bedwars.AbilityController:useAbility('jade_hammer_jump')
 					end
 
