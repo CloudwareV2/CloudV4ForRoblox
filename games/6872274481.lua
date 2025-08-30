@@ -8870,9 +8870,8 @@ end)
 
 -- NIGGERS!!!!
 -- who wrote this?
---[[run(function()
+run(function()
         local BetterStrafe: table = {["Enabled"] = false};
-        local connection: RBXScriptConnection? = nil;
         local findNearestPlayer: () -> Player? = function(): Player?
                 local closest: Player? = nil;
                 local closestDist: number? = nil;
@@ -8892,11 +8891,12 @@ end)
                 end;
                 return closest;
         end;
+
         BetterStrafe = vape.Categories.Combat:CreateModule({
                 ["Name"] = "BetterStrafe",
                 ["Function"] = function(callback: boolean): void
                         if callback then
-                                connection = runService.Heartbeat:Connect(function()
+                                vape:Clean(runService.Heartbeat:Connect(function()
                                         local hum: Humanoid? = lplr.Character and lplr.Character:FindFirstChildOfClass("Humanoid") :: Humanoid?;
                                         local hrp: BasePart? = lplr.Character and lplr.Character:FindFirstChild("HumanoidRootPart") :: BasePart?;
                                         if not (hum and hrp) then return; end;
@@ -8908,52 +8908,13 @@ end)
                                                         hum:MoveTo(targetHRP.Position);
                                                 end;
                                         end;
-                                end);
-
-                                return function(): nil
-                                        if connection then
-                                                connection:Disconnect();
-                                        end;
-                                end;
+                                end))
                         end;
                         return nil;
                 end,
 		["Tooltip"] = "code still aids"
         });
-end);]]
-
-run(function()
-	local BetterStrafe
-	local Targets
-	local Range
-
-	BetterStrafe = vape.Categories.Combat:CreateModule({
-		Name = 'BetterStrafe',
-		Function = function(callback)
-			if callback then
-				local ent = entitylib.EntityPosition({
-					Part = 'RootPart',
-					Range = Range.Value,
-					Players = Targets.Players.Enabled,
-					NPCs = Targets.NPCs.Enabled,
-					Wallcheck = Targets.Walls.Enabled
-				})
-	
-				if ent then
-					if #ent > 0 then
-						for _, v in ent do
-								local delta = (v.RootPart.Position - selfpos)
-								local angle = math.acos(localfacing:Dot((delta * Vector3.new(1, 0, 1)).Unit))
-						end
-					end
-				end
-
-								
-			end
-		end,
-		Tooltip = 'Rewrite'
-	})
-end)
+end);
 																																																																			
 run(function()
     local InfiniteJump
@@ -9729,52 +9690,6 @@ run(function()
 			end
 		end,
 		Tooltip = 'Acts like a god-mode with the Melody kit'
-	})
-end)
-
-local Disabler
-run(function()
-	Disabler = vape.Categories.CloudWare:CreateModule({
-		Name = 'Disabler',
-		Function = function(callback)
-			if callback then
-				notif('vape', store.equippedKit ~= nil and store.equippedKit or 'no kit', 10)
-				repeat
-					if Fly.Enabled and bedwars.AbilityController:canUseAbility('jade_hammer_jump') and store.equippedKit == 'jade' then
-						bedwars.AbilityController:useAbility('jade_hammer_jump')
-					end
-
-					task.wait()
-				until not Disabler.Enabled
-			end
-		end,
-		Tooltip = 'Allows for more speed'
-	})
-end)
-
-run(function()
-	local KnockbackExploit
-	local slamremote = replicatedStorage.rbxts_include.node_modules['@rbxts'].net.out._NetManaged.JadeHammerSlam
-
-	KnockbackExploit = vape.Categories.CloudWare:CreateModule({
-		Name = 'KnockbackExploit',
-		Function = function(callback)
-			if callback then
-				repeat
-					if Disabler.Enabled then
-						notif('Vape', 'disabler enabled --> they won\'t work together blud', 5)
-						KnockbackExploit:Toggle()
-					end
-
-					slamremote:FireServer({
-						slamIndex = 9e9
-					})
-
-					task.wait()
-				until not KnockbackExploit.Enabled
-			end
-		end,
-		Tooltip = 'Gives more knockback to players and additionally does 15 more damage'
 	})
 end)
 
