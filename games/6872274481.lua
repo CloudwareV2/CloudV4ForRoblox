@@ -671,7 +671,7 @@ run(function()
 		AnimationType = require(replicatedStorage.TS.animation['animation-type']).AnimationType,
 		AnimationUtil = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out['shared'].util['animation-util']).AnimationUtil,
 		AppController = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['game-core'].out.client.controllers['app-controller']).AppController,
-		BedBreakEffectMeta = require(replicatedStorage.TS.locker['bed-break-effect']['bed-break-effect-meta']),
+		BedBreakEffectMeta = require(replicatedStorage.TS.locker['bed-break-effect']['bed-break-effect-meta']).BreakBedEffectMeta,
 		BedwarsKitMeta = require(replicatedStorage.TS.games.bedwars.kit['bedwars-kit-meta']).BedwarsKitMeta,
 		BlockBreaker = Knit.Controllers.BlockBreakController.blockBreaker,
 		BlockController = require(replicatedStorage['rbxts_include']['node_modules']['@easy-games']['block-engine'].out).BlockEngine,
@@ -7548,12 +7548,8 @@ run(function()
 	})
 	local BreakEffectName = {}
 	for i, v in bedwars.BedBreakEffectMeta do
-		if tostring(i) == 'BedBreakEffectMeta' then
-			for x, d in v do
-				table.insert(BreakEffectName, d.name)
-				NameToId[d.name] = x
-			end
-		end
+		table.insert(BreakEffectName, v.name)
+		NameToId[v.name] = i
 	end
 	table.sort(BreakEffectName)
 	List = BedBreakEffect:CreateDropdown({
