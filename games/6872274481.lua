@@ -33,7 +33,7 @@ local isnetworkowner = identifyexecutor and table.find({'AWP', 'Nihon'}, ({ident
         
         if suc and res == Enum.NetworkOwnershipRule.Manual then
             sethiddenproperty(part, 'NetworkOwnershipRule', Enum.NetworkOwnership.Automatic)
-            networkswitch = tick() + 8
+            networkswitch = tick() + 1
         end
         
         return networkswitch <= tick()
