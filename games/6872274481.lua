@@ -34,7 +34,7 @@ local isnetworkowner = identifyexecutor and table.find({'AWP', 'Nihon'}, ({ident
         return gethiddenproperty(part, 'NetworkOwnershipRule')
     end)
     
-    if suc and typeof(rule) == 'EnumItem' then
+    if suc and typeof(res) == 'EnumItem' then
         if res == Enum.NetworkOwnershipRule.Automatic then
             local root = entitylib.character.RootPart
             if (entitylib.isAlive and root) and (part == root or part:IsDescendantOf(root)) then
