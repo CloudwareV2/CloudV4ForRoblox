@@ -46,8 +46,7 @@ local isnetworkowner = identifyexecutor and table.find({'AWP', 'Nihon'}, ({ident
     else
         local realVelo = part.Velocity
         part.Velocity = Vector3.new(0.00000001, 0, 0) * 50
-        task.wait()
-        
+    
         local result = (part.Velocity ~= realVelo)
         part.Velocity = realVelo
         
