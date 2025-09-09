@@ -24,9 +24,29 @@ local guiService = cloneref(game:GetService('GuiService'))
 local coreGui = cloneref(game:GetService('CoreGui'))
 local starterGui = cloneref(game:GetService('StarterGui'))
 
-local isnetworkowner = identifyexecutor and table.find({'AWP', 'Nihon'}, ({identifyexecutor()})[1]) and isnetworkowner or function()
-	return true
+local networkswitch, trashexec = tick(), false
+local isnetworkowner = identifyexecutor and table.find({'AWP', 'Nihon'}, ({identifyexecutor()})[1]) and isnetworkowner or function(part)
+    if gethiddenproperty and sethiddenproperty then
+        local suc, res = pcall(function()
+            return gethiddenproperty(part, 'NetworkOwnershipRule')
+        end)
+        
+        if suc and res == Enum.NetworkOwnershipRule.Manual then
+            sethiddenproperty(part, 'NetworkOwnershipRule', Enum.NetworkOwnership.Automatic)
+            networkswitch = tick() + 8
+        end
+        
+        return networkswitch <= tick()
+    else
+        if trashexec == false then
+            trashexec = true
+            notif('Vape', 'no get/sethiddenproperty functions', 5, 'warning')
+        end
+
+        return true
+    end
 end
+
 local gameCamera = workspace.CurrentCamera
 local lplr = playersService.LocalPlayer
 local assetfunction = getcustomasset
