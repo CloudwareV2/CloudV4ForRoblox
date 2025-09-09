@@ -25,32 +25,34 @@ local coreGui = cloneref(game:GetService('CoreGui'))
 local starterGui = cloneref(game:GetService('StarterGui'))
 
 local isnetworkowner = identifyexecutor and table.find({'AWP', 'Nihon'}, ({identifyexecutor()})[1]) and isnetworkowner or function(part)
-    if typeof(part) ~= 'Instance' then
-        notif('Cloud', 'Part: not a instance: report to ._stav', 4)
-        return false
-    end
-    
-    local suc, res = pcall(function()
-        return gethiddenproperty(part, 'NetworkOwnershipRule')
-    end)
-    
-    if suc and typeof(res) == 'EnumItem' then
-        if res == Enum.NetworkOwnershipRule.Automatic then
-            local root = entitylib.character.RootPart
-            if (entitylib.isAlive and root) and (part == root or part:IsDescendantOf(root)) then
-                return true
-            end
-        elseif res == Enum.NetworkOwnershipRule.Manual then
-            return gethiddenproperty(part, 'NetworkOwner') == lplr
-        end
-    else
-        local realVelo = part.Velocity
-        part.Velocity = Vector3.new(0.00000001, 0, 0) * 50
-        local result = (part.Velocity ~= realVelo)
-        part.Velocity = realVelo
-        
-        return result
-    end
+    task.spawn(function()
+									if typeof(part) ~= 'Instance' then
+					        notif('Cloud', 'Part: not a instance: report to ._stav', 4)
+					        return false
+					    end
+			    
+					    local suc, res = pcall(function()
+					        return gethiddenproperty(part, 'NetworkOwnershipRule')
+					    end)
+					    
+					    if suc and typeof(res) == 'EnumItem' then
+					        if res == Enum.NetworkOwnershipRule.Automatic then
+					            local root = entitylib.character.RootPart
+					            if (entitylib.isAlive and root) and (part == root or part:IsDescendantOf(root)) then
+					                return true
+					            end
+					        elseif res == Enum.NetworkOwnershipRule.Manual then
+					            return gethiddenproperty(part, 'NetworkOwner') == lplr
+					        end
+					    else
+					        local realVelo = part.Velocity
+					        part.Velocity = Vector3.new(0.00000001, 0, 0) * 50
+					        local result = (part.Velocity ~= realVelo)
+					        part.Velocity = realVelo
+					        
+					        return result
+					    end
+				end)
 end
 
 local gameCamera = workspace.CurrentCamera
