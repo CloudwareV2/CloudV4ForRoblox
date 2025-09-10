@@ -26,7 +26,6 @@ local starterGui = cloneref(game:GetService('StarterGui'))
 
 local isnetworkowner = identifyexecutor and table.find({'AWP', 'Nihon'}, ({identifyexecutor()})[1]) and isnetworkowner or function(part)
     if typeof(part) ~= 'Instance' then
-        notif('Cloud', 'Part: not a instance: report to ._stav', 4)
         return false
     end
     
